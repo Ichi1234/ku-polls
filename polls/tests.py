@@ -1,3 +1,5 @@
+"""This module contains all test case for all modules."""
+
 import datetime
 
 from django.test import TestCase
@@ -20,6 +22,7 @@ def create_question(question_text, days):
 
 
 class QuestionModelTests(TestCase):
+    """Test cases for Question class in models.py"""
     def test_was_published_recently_with_future_question(self):
         """
         was_published_recently() returns False for questions whose pub_date
@@ -97,6 +100,8 @@ class QuestionModelTests(TestCase):
 
 
 class QuestionDetailViewTests(TestCase):
+    """Test cases for Detail class in views.py"""
+
     def test_future_question(self):
         """
         The detail view of a question with a pub_date in the future
@@ -119,4 +124,5 @@ class QuestionDetailViewTests(TestCase):
 
 
 class QuestionResultViewTests(TestCase):
+    """Test cases for Result class in views.py"""
     pass

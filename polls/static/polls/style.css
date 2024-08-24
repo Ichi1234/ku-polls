@@ -1,7 +1,28 @@
+h1 {
+
+}
+
+ul > li {
+      list-style:square;
+      color:#ADD8E6;
+}
+
 li a {
-    color: green;
+    text-decoration: none;
+    color:#ADD8E6;
 }
 
 body {
     background: white url("images/background.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Adjust background for smaller screens */
+@media (max-width: 768px) {
+    body {
+        background-size: contain;
+        background-attachment: scroll;
+    }
 }

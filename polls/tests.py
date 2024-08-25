@@ -170,7 +170,7 @@ class QuestionDetailViewTests(TestCase):
         """
 
         no_choice_question = create_question(question_text="HAHAHA No CHOICE", days=-2, choices=[])
-        url = reverse("polls:detail", args=no_choice_question.id)
+        url = reverse("polls:detail", args=(no_choice_question.id,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -211,7 +211,7 @@ class QuestionResultViewTests(TestCase):
         """
 
         no_choice_question = create_question(question_text="HAHAHA No CHOICE", days=-2, choices=[])
-        url = reverse("polls:detail", args=no_choice_question.id)
+        url = reverse("polls:results", args=(no_choice_question.id,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)

@@ -20,6 +20,7 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """
         Return the last 5 questions (Not include those set that set to published in the future)
+        Not show the polls that don't have any choices
         """
 
         # filter no choices question
@@ -42,9 +43,20 @@ class DetailView(generic.DetailView):
 
     def get_queryset(self):
         """
-        Excludes any questions that aren't published yet.
+        Return the last 5 questions (Not include those set that set to published in the future)
+        Not show the polls that don't have any choices
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+
+        # filter no choices question
+        question_list = []
+        for each_question in Question.objects.all():
+            if not [choice for choice in each_question.choice_set.all()]:
+                continue
+            else:
+                question_list.append(each_question)
+
+        return Question.objects.filter(pub_date__lte=timezone.now(),
+                                       pk__in=[question.pk for question in question_list])
 
 
 class ResultsView(generic.DetailView):
@@ -54,9 +66,20 @@ class ResultsView(generic.DetailView):
 
     def get_queryset(self):
         """
-        Excludes any questions that aren't published yet.
+        Return the last 5 questions (Not include those set that set to published in the future)
+        Not show the polls that don't have any choices
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+
+        # filter no choices question
+        question_list = []
+        for each_question in Question.objects.all():
+            if not [choice for choice in each_question.choice_set.all()]:
+                continue
+            else:
+                question_list.append(each_question)
+
+        return Question.objects.filter(pub_date__lte=timezone.now(),
+                                       pk__in=[question.pk for question in question_list])
 
 
 def vote(request, question_id):

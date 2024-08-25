@@ -21,7 +21,17 @@ class IndexView(generic.ListView):
         """
         Return the last 5 questions (Not include those set that set to published in the future)
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+
+        # filter no choices question
+        question_list = []
+        for each_question in Question.objects.all():
+            if not [choice for choice in each_question.choice_set.all()]:
+                continue
+            else:
+                question_list.append(each_question)
+
+        return Question.objects.filter(pub_date__lte=timezone.now(),
+                                       pk__in=[question.pk for question in question_list]).order_by("-pub_date")[:5]
 
 
 class DetailView(generic.DetailView):
@@ -70,3 +80,4 @@ def vote(request, question_id):
         # return redirect after finish dealing with POST data
         # (Prevent data from posted twice if user click at back button)
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+

@@ -46,3 +46,4 @@ class Choice(models.Model):
     def __str__(self):
         """:return choice's text to show it to user"""
         return self.choice_text
+

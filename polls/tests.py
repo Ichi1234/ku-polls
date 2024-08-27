@@ -56,6 +56,18 @@ class QuestionModelTests(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+
+class QuestionIndexViewTests(TestCase):
+    """Test case for Index class in views.py"""
+
+    def test_no_choice(self):
+        """
+        Question that doesn't have a choice shouldn't appear to user
+        """
+        create_question(question_text="HAHAHA No CHOICE", days=-2, choices=[])
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerySetEqual(response.context["latest_question_list"], [])
+
     def test_no_questions(self):
         """
         If no questions exist, an appropriate message is displayed.
@@ -121,18 +133,6 @@ class QuestionModelTests(TestCase):
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(
             response.context["latest_question_list"], [question2, question1])
-
-
-class QuestionIndexViewTests(TestCase):
-    """Test case for Index class in views.py"""
-
-    def test_no_choice(self):
-        """
-        Question that doesn't have a choice shouldn't appear to user
-        """
-        create_question(question_text="HAHAHA No CHOICE", days=-2, choices=[])
-        response = self.client.get(reverse("polls:index"))
-        self.assertQuerySetEqual(response.context["latest_question_list"], [])
 
 
 class QuestionDetailViewTests(TestCase):

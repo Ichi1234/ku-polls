@@ -1,22 +1,9 @@
-h1 {
-
-}
-
-ul > li {
-      list-style:square;
-      color:#ADD8E6;
-}
-
-li a {
-    text-decoration: none;
-    color:#ADD8E6;
-}
-
 body {
     background: white url("images/background.jpg") no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    color: white;
 }
 
 /* Adjust background for smaller screens */
@@ -26,3 +13,79 @@ body {
         background-attachment: scroll;
     }
 }
+
+.home h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    padding-top: 40px;
+    color: white;
+}
+
+ul > li {
+      list-style:square;
+      color:#ffdc73;
+}
+
+li a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color:#ffdc73;
+}
+
+/* Slightly darker background on hover */
+li a:hover {
+    color: #d1b45c;
+}
+
+
+legend {
+    color:gold;
+}
+
+fieldset {
+    border-color:#ffdc73;
+    color: white;
+    border-width: 0.25rem;
+    margin-bottom: 20px;
+}
+
+.button {
+    display: inline-block;
+    background-color: #6B6B6B;
+    color: white;
+
+    min-width: 4rem;
+    height: 2rem;
+    line-height: 1.5rem;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border-radius: 4px;
+    border-width: 0rem;
+
+
+    text-decoration: none;
+
+    font-weight: normal;
+    text-align: center;
+
+    padding: 4px;
+    margin: 2px;
+
+    cursor: pointer;
+}
+
+/* Slightly darker background on hover */
+.button:hover {
+    background-color: #5a5a5a;
+}
+
+/* Adds a shrink scale effect when clicking  It's cool isn't it? */
+.button:active {
+    transform: scale(0.98);
+}
+
+
+.choice:hover {
+   color: #dbdbdb;
+}
+

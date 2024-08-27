@@ -1,13 +1,15 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
 
-<h1 class="home">Welcome to KU-Polls!</h1>
-{% if latest_question_list %}
-    <ul class="home">
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<section class="home">
+    <h1 class="home">Welcome to KU-Polls!</h1>
+    {% if latest_question_list %}
+        <ul class="home">
+        {% for question in latest_question_list %}
+            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <polls>No polls are available.</polls>
+    {% endif %}
+</section>

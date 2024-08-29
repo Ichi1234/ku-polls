@@ -24,14 +24,15 @@ class QuestionAdmin(admin.ModelAdmin):
     # make question_text and date in Question page separate (look like add margin to div)
     fieldsets = [
         (None, {"fields": ["question_text"]}),
-        ("Date information", {"fields": ["pub_date"]}),
+        ("Date Information", {"fields": ["pub_date"]}),
+        ("End Date Information", {"fields": ["end_date"]}),
     ]
 
     # insert choice list to the Question page make it easier to manage
     inlines = [ChoiceInline]
 
     # make pubdate and publish appear in admin home page
-    list_display = ["question_text", "pub_date", "was_published_recently"]
+    list_display = ["question_text", "pub_date", "end_date", "was_published_recently"]
 
     # add sorting table
     list_filter = ["pub_date"]

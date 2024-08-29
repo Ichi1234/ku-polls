@@ -56,6 +56,21 @@ class QuestionModelTests(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+    def test_default_pub_date_equal_to_now(self):
+        """
+        This test is the test case for default pub_date time.
+        The default pub_date time should be current time.
+        """
+        no_pub_date_question = Question()
+        self.assertEqual(no_pub_date_question.pub_date, timezone.now())
+
+    def test_default_end_date_is_null(self):
+        """
+        This test checks that the default value for end_date is None.
+        """
+        no_end_date_question = Question()
+        self.assertIsNone(no_end_date_question.end_date)
+
 
 class QuestionIndexViewTests(TestCase):
     """Test case for Index class in views.py"""

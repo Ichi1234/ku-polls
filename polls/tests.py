@@ -71,6 +71,62 @@ class QuestionModelTests(TestCase):
         no_end_date_question = Question()
         self.assertIsNone(no_end_date_question.end_date)
 
+    def test_is_published_past_question(self):
+        """
+        :return: True if Question is already published (current time is > than pub_date)
+        """
+        time = timezone.now() - datetime.timedelta(days=1, seconds=1)
+        past_question = Question(pub_date=time) # end date is null
+        self.assertEqual(True, past_question.is_published())
+
+    def test_is_published_future_question(self):
+        """
+        :return: False if Question has not published (current time is < than pub_date)
+        """
+        time = timezone.now() + datetime.timedelta(days=1, seconds=1)
+        past_question = Question(pub_date=time)
+        self.assertEqual(False, past_question.is_published())
+
+    def test_can_vote_past_question_future_end_date(self):
+        """
+        :return: True if Question is already published (current time is > than pub_date)
+        and can vote (polls still not reach end_date)
+        """
+        start_time = timezone.now() - datetime.timedelta(days=2, seconds=1)
+        end_time = timezone.now() + datetime.timedelta(days=2, seconds=1)
+        past_question = Question(pub_date=start_time, end_date=end_time)
+        self.assertEqual(True, past_question.can_vote())
+
+    def test_can_vote_past_question_past_end_date(self):
+        """
+        :return: False if Question has not published (current time is > than pub_date)
+        or can't vote anymore (polls reach end_date)
+        """
+        start_time = timezone.now() - datetime.timedelta(days=5, seconds=1)
+        end_time = timezone.now() - datetime.timedelta(days=2, seconds=1)
+        past_question = Question(pub_date=start_time, end_date=end_time)
+        self.assertEqual(False, past_question.can_vote())
+
+    def test_can_vote_future_question_future_end_date(self):
+        """
+        :return: False because it in future you can't vote future polls!
+        """
+        start_time = timezone.now() + datetime.timedelta(days=5, seconds=1)
+        end_time = timezone.now() + datetime.timedelta(days=8, seconds=1)
+        future_question = Question(pub_date=start_time, end_date=end_time)
+        self.assertEqual(False, future_question.can_vote())
+
+    def test_can_vote_future_question_past_end_date(self):
+        """
+        :return: False
+        Why you even created this polls!? the end_date is before future date???
+        This is ridiculous!!!
+        """
+        start_time = timezone.now() + datetime.timedelta(days=2, seconds=1)
+        end_time = timezone.now() - datetime.timedelta(days=2, seconds=1)
+        future_question = Question(pub_date=start_time, end_date=end_time)
+        self.assertEqual(False, future_question.can_vote())
+
 
 class QuestionIndexViewTests(TestCase):
     """Test case for Index class in views.py"""

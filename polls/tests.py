@@ -76,7 +76,7 @@ class QuestionModelTests(TestCase):
         :return: True if Question is already published (current time is > than pub_date)
         """
         time = timezone.now() - datetime.timedelta(days=1, seconds=1)
-        past_question = Question(pub_date=time) # end date is null
+        past_question = Question(pub_date=time)  # end date is null
         self.assertEqual(True, past_question.is_published())
 
     def test_is_published_future_question(self):
@@ -202,6 +202,26 @@ class QuestionIndexViewTests(TestCase):
                                              {"choice_text": "Test2", "votes": 5}])
 
         response = self.client.get(reverse("polls:index"))
+        self.assertQuerySetEqual(
+            response.context["latest_question_list"], [question2, question1])
+
+    def test_two_past_questions_and_one_future(self):
+        """
+        The questions index page should only display question1 amd 2 because 3 pub_date is in the future.
+        """
+        question1 = create_question(question_text="Past question 1.", days=-30,
+                                    choices=[{"choice_text": "Test1", "votes": 0},
+                                             {"choice_text": "Test2", "votes": 5}])
+
+        question2 = create_question(question_text="Past question 2.", days=-5,
+                                    choices=[{"choice_text": "Test1", "votes": 0},
+                                             {"choice_text": "Test2", "votes": 5}])
+
+        create_question(question_text="Future question 3.", days=10,
+                        choices=[{"choice_text": "FOUL TARNISED", "votes": 0}])
+
+        response = self.client.get(reverse("polls:index"))
+
         self.assertQuerySetEqual(
             response.context["latest_question_list"], [question2, question1])
 

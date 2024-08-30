@@ -23,9 +23,9 @@ class IndexView(generic.ListView):
         Not show the polls that don't have any choices
         """
 
-        # filter no choices question
+        # filter no choices question and not yet published question
         question_list = [question for question in Question.objects.all()
-                         if question.have_choice()]
+                         if question.have_choice() and question.is_published()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk for question in question_list]).order_by("-pub_date")[:5]
@@ -43,9 +43,9 @@ class DetailView(generic.DetailView):
         Not show the polls that don't have any choices
         """
 
-        # filter no choices question
+        # filter no choices question and not yet published question
         question_list = [question for question in Question.objects.all()
-                         if question.have_choice()]
+                         if question.have_choice() and question.is_published()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk for question in question_list])
@@ -62,9 +62,9 @@ class ResultsView(generic.DetailView):
         Not show the polls that don't have any choices
         """
 
-        # filter no choices question
+        # filter no choices question and not yet published question
         question_list = [question for question in Question.objects.all()
-                         if question.have_choice()]
+                         if question.have_choice() and question.is_published()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk for question in question_list])

@@ -84,6 +84,15 @@ fieldset {
     transform: scale(0.98);
 }
 
+.disable {
+    background-color: #3b3a3a;
+    cursor: not-allowed;
+}
+
+/* Adds a shrink scale effect when clicking  It's cool isn't it? */
+.disable:active {
+    transform: none;
+}
 
 .choice:hover {
    color: #dbdbdb;

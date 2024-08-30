@@ -25,7 +25,7 @@ class IndexView(generic.ListView):
 
         # filter no choices question
         question_list = [question for question in Question.objects.all()
-                         if [choice for choice in question.choice_set.all()]]
+                         if question.have_choice()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk for question in question_list]).order_by("-pub_date")[:5]
@@ -45,7 +45,7 @@ class DetailView(generic.DetailView):
 
         # filter no choices question
         question_list = [question for question in Question.objects.all()
-                         if [choice for choice in question.choice_set.all()]]
+                         if question.have_choice()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk for question in question_list])
@@ -64,7 +64,7 @@ class ResultsView(generic.DetailView):
 
         # filter no choices question
         question_list = [question for question in Question.objects.all()
-                         if [choice for choice in question.choice_set.all()]]
+                         if question.have_choice()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk for question in question_list])

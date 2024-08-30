@@ -43,6 +43,12 @@ class Question(models.Model):
             return True
         return self.pub_date <= current_time <= self.end_date
 
+    def have_choice(self):
+        """
+        :return: True if the question has choices.
+        """
+        return self.choice_set.count() > 0
+
     @admin.display(
         boolean=True,
         ordering="pub_date",

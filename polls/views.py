@@ -1,11 +1,12 @@
 """Views class for element that show to the user"""
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.db.models import F
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib import messages
 
 from .models import Question, Choice
 
@@ -36,6 +37,24 @@ class DetailView(generic.DetailView):
 
     model = Question
     template_name = "polls/detail.html"
+
+    def get(self, request, *args, **kwargs):
+        """
+        GET method for detail.html page
+        """
+
+        # give me question
+        question = self.get_object()
+
+        if not question.can_vote():
+            # Set an error message
+            messages.error(request, "Voting is not allowed for this poll.")
+
+            # Redirect to the index page
+            return redirect('polls:index')
+
+        # If voting is allowed, proceed with the normal behavior
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         """
@@ -91,4 +110,3 @@ def vote(request, question_id):
         # return redirect after finish dealing with POST data
         # (Prevent data from posted twice if user click at back button)
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
-

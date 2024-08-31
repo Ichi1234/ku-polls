@@ -109,10 +109,27 @@ class ResultsView(generic.DetailView):
 
         question = self.get_object()
 
-        total_votes = sum([int(choice.votes) for choice in question.choice_set.all])
+        list_of_question = []  # I hate Django want to use ejs and js instead
+
+        total_votes = sum([int(choice.votes) for choice in question.choice_set.all()])
+
+        for cur_question in question.choice_set.all():
+
+            if total_votes > 0:
+                list_of_question.append({
+                    "choice_text": cur_question.choice_text,
+                    "votes": cur_question.votes,
+                    "percentage": (int(cur_question.votes) / total_votes) * 100
+                })
+            else:
+                list_of_question.append({
+                    "choice_text": cur_question.choice_text,
+                    "votes": cur_question.votes,
+                    "percentage": 0
+                })
 
         # Add custom data to the context
-        context['total_votes'] = total_votes
+        context['list_of_question'] = list_of_question # please work
 
         # LET'S GO TO RESULT.HTML
         return context

@@ -9,10 +9,17 @@
 
 <section class="result-page">
     <div class="container">
-        <legend> <h1>{{ question.question_text }} </h1></legend>
+        <h1>{{ question.question_text }} </h1>
         <ul>
-        {% for choice in question.choice_set.all %}
-            <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+        {% for choice in list_of_question %}
+            <li class="total-vote">{{ choice.choice_text }} : {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+            <div>
+                <div class="percentage-container bar">
+                    <div class="percentage-bar bar" style="width:{{ choice.percentage }}%">
+                    {{ choice.percentage }}%
+                    </div>
+                </div>
+            </div>
         {% endfor %}
         </ul>
         <a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>

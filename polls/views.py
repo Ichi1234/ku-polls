@@ -119,7 +119,7 @@ class ResultsView(generic.DetailView):
                 list_of_question.append({
                     "choice_text": cur_question.choice_text,
                     "votes": cur_question.votes,
-                    "percentage": (int(cur_question.votes) / total_votes) * 100
+                    "percentage": round(int(cur_question.votes) / total_votes * 100, 2)
                 })
             else:
                 list_of_question.append({
@@ -142,13 +142,11 @@ def vote(request, question_id):
         select_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
         # display error
-        return render(
-            request, "polls/detail.html",
-            {
-                "question": question,
-                "error_message": "You didn't select a choice.",
-            },
-        )
+        messages.error(request, "You didn't select a choice.")
+
+        # Redirect to the index page
+        return redirect('polls:detail', question.pk)
+
     else:
         select_choice.votes = F("votes") + 1
         select_choice.save()

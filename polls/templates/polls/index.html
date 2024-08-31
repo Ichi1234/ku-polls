@@ -1,13 +1,33 @@
+
 {% load static %}
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
-
-<h1 class="home">Welcome to KU-Polls!</h1>
-{% if latest_question_list %}
-    <ul class="home">
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
+<head>
+    <meta charset="UTF-8">
+    <title>KU-Polls</title>
+    <link rel="icon" href="{% static 'polls/images/icon.png' %}">
+</head>
+<section class="home">
+    <h1 class="home">Welcome to KU-Polls!</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</li>
+        {% endfor %}
     </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+    {% endif %}
+
+    {% if latest_question_list %}
+        <ul class="home">
+        {% for question in latest_question_list %}
+            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+
+            <div>
+                <a href="{% url 'polls:detail' question.id %}" class = "button">Votes</a>
+                <a href="{% url 'polls:results' question.id %}" class="button">Results</a>
+            </div>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <polls>No polls are available.</polls>
+    {% endif %}
+</section>

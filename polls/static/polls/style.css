@@ -1,22 +1,11 @@
-h1 {
-
-}
-
-ul > li {
-      list-style:square;
-      color:#ADD8E6;
-}
-
-li a {
-    text-decoration: none;
-    color:#ADD8E6;
-}
-
 body {
     background: white url("images/background.jpg") no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    color: white;
+
+
 }
 
 /* Adjust background for smaller screens */
@@ -26,3 +15,188 @@ body {
         background-attachment: scroll;
     }
 }
+
+.home h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    padding-top: 40px;
+    color: white;
+}
+
+ul > li {
+      list-style:none;
+      color:#ffdc73;
+}
+
+li a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color:#ffdc73;
+}
+
+/* Slightly darker background on hover */
+li a:hover {
+    color: #d1b45c;
+}
+
+.button {
+    display: inline-block;
+    background-color: #51575B;
+    color: white;
+
+    min-width: 4rem;
+    height: 2rem;
+    line-height: 1.5rem;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border-radius: 8px;
+    border-width: 0rem;
+
+
+    text-decoration: none;
+
+    font-weight: normal;
+    text-align: center;
+
+    padding: 4px;
+    margin: 4px;
+
+    cursor: pointer;
+}
+
+/* Slightly darker background on hover */
+.button:hover {
+    background-color: #42474a;
+}
+
+/* Adds a shrink scale effect when clicking  It's cool isn't it? */
+.button:active {
+    transform: scale(0.98);
+}
+
+.disable {
+    background-color: #3b3a3a;
+    cursor: not-allowed;
+}
+
+/* Adds a shrink scale effect when clicking  It's cool isn't it? */
+.disable:active {
+    transform: none;
+}
+
+/* Error message */
+.messages {
+    list-style: none;
+    margin: 1em 0 2em;
+    padding: 0;
+}
+
+.messages li {
+    padding: 1em;
+    width: 100%;
+    color: white;
+    line-height: 2.0em;
+}
+
+.messages li.error {
+    background-color: rgb(146, 0, 0);
+}
+
+/* Container */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    border-radius: 8px;
+
+    margin: 50px;
+    padding: 30px;
+
+
+    grid-column: 1/-1;
+    grid-row: 1/-1;
+
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.container > h1 {
+    font-size: 2.5rem;
+    color: gold;
+
+    margin-left: 20px;
+}
+
+/* detail page */
+
+.detail-page {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+}
+
+.radio-container input[type="radio"] {
+    margin: 20px 16px 20px 44px;
+}
+
+.choice {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.choice:hover {
+   color: #dbdbdb;
+}
+
+.radio-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+/* result page */
+
+.result-page {
+
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+
+}
+
+.result-page * {
+    color: white;
+}
+
+.total-vote {
+    font-size: 1.5rem;
+}
+
+.total-vote {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.percentage-bar {
+    background-color: #DAA520;
+    border-radius: 16px;
+
+    text-align: center;
+}
+
+.percentage-container {
+    background-color: #202324;
+    border-radius: 16px;
+}
+
+.bar {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+

@@ -1,12 +1,32 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
 
-<h1>{{ question.question_text }}</h1>
+<head>
+    <meta charset="UTF-8">
+    <title>KU-Polls</title>
+    <link rel="icon" href="{% static 'polls/images/icon.png' %}">
+</head>
 
-<ul>
-{% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-{% endfor %}
-</ul>
+<section class="result-page">
+    <div class="container">
+        <h1>{{ question.question_text }} </h1>
+        <ul>
+        {% for choice in list_of_question %}
+            <li class="total-vote">
+                <span>{{ choice.choice_text }}</span>
+                <span>{{ choice.votes }}</span>
+            </li>
+            <div>
 
-<a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+                <div class="percentage-container bar">
+                    <div class="percentage-bar bar" style="width:{{ choice.percentage }}%">
+                    {{ choice.percentage }}%
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </ul>
+        <a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>
+    </div>
+
+</section>

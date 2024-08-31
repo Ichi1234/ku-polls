@@ -1,6 +1,6 @@
 """Views class for element that show to the user"""
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.db.models import F
 from django.urls import reverse
@@ -55,7 +55,9 @@ class DetailView(generic.DetailView):
 
         if not question.can_vote():
             # Set an error message
-            messages.error(request, f"Voting is not allowed for '{question.question_text}' poll.")
+            messages.error(request,
+                           f"Voting is not allowed for"
+                           f" '{question.question_text}' poll.")
 
             # Redirect to the index page
             return redirect('polls:index')
@@ -111,7 +113,8 @@ class ResultsView(generic.DetailView):
 
         list_of_question = []  # I hate Django want to use ejs and js instead
 
-        total_votes = sum([int(choice.votes) for choice in question.choice_set.all()])
+        total_votes = sum([int(choice.votes)
+                           for choice in question.choice_set.all()])
 
         for cur_question in question.choice_set.all():
 
@@ -119,7 +122,8 @@ class ResultsView(generic.DetailView):
                 list_of_question.append({
                     "choice_text": cur_question.choice_text,
                     "votes": cur_question.votes,
-                    "percentage": round(int(cur_question.votes) / total_votes * 100, 2)
+                    "percentage": round(int(cur_question.votes)
+                                        / total_votes * 100, 2)
                 })
             else:
                 list_of_question.append({
@@ -129,7 +133,7 @@ class ResultsView(generic.DetailView):
                 })
 
         # Add custom data to the context
-        context['list_of_question'] = list_of_question # please work
+        context['list_of_question'] = list_of_question  # please work
 
         # LET'S GO TO RESULT.HTML
         return context

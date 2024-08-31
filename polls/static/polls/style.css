@@ -66,7 +66,7 @@ li a:hover {
 
 /* Slightly darker background on hover */
 .button:hover {
-    background-color: #5a5a5a;
+    background-color: #42474a;
 }
 
 /* Adds a shrink scale effect when clicking  It's cool isn't it? */
@@ -164,7 +164,7 @@ li a:hover {
 .result-page {
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: auto;
     grid-template-rows: auto;
 
 }

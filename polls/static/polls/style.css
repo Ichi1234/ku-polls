@@ -116,3 +116,27 @@ fieldset {
     background-color: rgb(146, 0, 0);
 }
 
+/* result page */
+
+.result-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 0.1fr 0.1fr 0.1fr;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    border-radius: 8px;
+
+    margin: 50px;
+    padding: 30px;
+    min-height: 100vh;
+
+    grid-column: 1/-1;
+    grid-row: 1/-1;
+
+    background-color: rgba(0, 0, 0, 0.6);
+}

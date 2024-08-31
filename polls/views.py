@@ -31,9 +31,9 @@ class IndexView(generic.ListView):
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk
-                                       for question in
-                                       question_list]).order_by(
-                                       "-pub_date")[:5]
+                                               for question in
+                                               question_list]).order_by(
+            "-pub_date")[:5]
 
 
 class DetailView(generic.DetailView):
@@ -76,7 +76,7 @@ class DetailView(generic.DetailView):
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk
-                                       for question in question_list])
+                                               for question in question_list])
 
 
 class ResultsView(generic.DetailView):
@@ -97,7 +97,25 @@ class ResultsView(generic.DetailView):
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
                                        pk__in=[question.pk
-                                       for question in question_list])
+                                               for question in question_list])
+
+    def get_context_data(self, **kwargs):
+        """
+        Add custom context to the template.
+        (Use this method to sent the data that I want to results.html)
+        """
+        # Get the existing context from the superclass method
+        context = super().get_context_data(**kwargs)
+
+        question = self.get_object()
+
+        total_votes = sum([int(choice.votes) for choice in question.choice_set.all])
+
+        # Add custom data to the context
+        context['total_votes'] = total_votes
+
+        # LET'S GO TO RESULT.HTML
+        return context
 
 
 def vote(request, question_id):

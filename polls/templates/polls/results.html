@@ -7,12 +7,15 @@
     <link rel="icon" href="{% static 'polls/images/icon.png' %}">
 </head>
 
-<fieldset>
-    <legend> <h1>{{ question.question_text }} </h1></legend>
-    <ul>
-    {% for choice in question.choice_set.all %}
-        <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-    {% endfor %}
-    </ul>
-</fieldset>
-<a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>
+<section class="result-page">
+    <div class="container">
+        <legend> <h1>{{ question.question_text }} </h1></legend>
+        <ul>
+        {% for choice in question.choice_set.all %}
+            <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+        {% endfor %}
+        </ul>
+        <a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>
+    </div>
+
+</section>

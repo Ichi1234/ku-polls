@@ -55,7 +55,7 @@ class DetailView(generic.DetailView):
 
         if not question.can_vote():
             # Set an error message
-            messages.error(request, "Voting is not allowed for this poll.")
+            messages.error(request, f"Voting is not allowed for '{question.question_text}' poll.")
 
             # Redirect to the index page
             return redirect('polls:index')

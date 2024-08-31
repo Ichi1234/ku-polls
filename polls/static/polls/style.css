@@ -39,18 +39,6 @@ li a:hover {
     color: #d1b45c;
 }
 
-
-legend {
-    color:gold;
-}
-
-fieldset {
-    border-color:#ffdc73;
-    color: white;
-    border-width: 0.25rem;
-    margin-bottom: 20px;
-}
-
 .button {
     display: inline-block;
     background-color: #51575B;
@@ -96,10 +84,6 @@ fieldset {
     transform: none;
 }
 
-.choice:hover {
-   color: #dbdbdb;
-}
-
 /* Error message */
 .messages {
     list-style: none;
@@ -118,9 +102,67 @@ fieldset {
     background-color: rgb(146, 0, 0);
 }
 
+/* Container */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    border-radius: 8px;
+
+    margin: 50px;
+    padding: 30px;
+
+
+    grid-column: 1/-1;
+    grid-row: 1/-1;
+
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.container > h1 {
+    font-size: 2.5rem;
+    color: gold;
+
+    margin-left: 20px;
+}
+
+/* detail page */
+
+.detail-page {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+}
+
+.radio-container input[type="radio"] {
+    margin: 20px 16px 20px 44px;
+}
+
+.choice {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.choice:hover {
+   color: #dbdbdb;
+}
+
+.radio-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
 /* result page */
 
 .result-page {
+
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
@@ -131,33 +173,8 @@ fieldset {
     color: white;
 }
 
-.container > h1 {
-    font-size: 2.5rem;
-    color: gold;
-
-    margin-left: 20px;
-}
-
 .total-vote {
     font-size: 1.5rem;
-
-}
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-
-    border-radius: 8px;
-
-    margin: 50px;
-    padding: 30px;
-    min-height: 100vh;
-
-
-    grid-column: 1/-1;
-    grid-row: 1/-1;
-
-    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .total-vote {

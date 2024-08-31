@@ -22,7 +22,7 @@ body {
 }
 
 ul > li {
-      list-style:square;
+      list-style:none;
       color:#ffdc73;
 }
 
@@ -69,7 +69,7 @@ fieldset {
     text-align: center;
 
     padding: 4px;
-    margin: 2px;
+    margin: 4px;
 
     cursor: pointer;
 }
@@ -113,6 +113,6 @@ fieldset {
 }
 
 .messages li.error {
-    background-color: #ffe3e3;
+    background-color: rgb(146, 0, 0);
 }
 

@@ -19,9 +19,9 @@
     {% endfor %}
 </fieldset>
     {% if question.can_vote %}
-        <input type="submit" value="Vote" class="button">
+        <input type="submit" value="Submit" class="button">
     {% else %}
-        <input type="submit" value="Vote" class="button disable" disabled>
+        <input type="submit" value="Submit" class="button disable" disabled>
     {% endif %}
 
     <a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>

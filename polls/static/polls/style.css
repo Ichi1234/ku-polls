@@ -160,6 +160,12 @@ fieldset {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
+.total-vote {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .percentage-bar {
     background-color: #DAA520;
     border-radius: 16px;
@@ -173,6 +179,7 @@ fieldset {
 }
 
 .bar {
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
+

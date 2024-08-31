@@ -12,8 +12,12 @@
         <h1>{{ question.question_text }} </h1>
         <ul>
         {% for choice in list_of_question %}
-            <li class="total-vote">{{ choice.choice_text }} : {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+            <li class="total-vote">
+                <span>{{ choice.choice_text }}</span>
+                <span>{{ choice.votes }}</span>
+            </li>
             <div>
+
                 <div class="percentage-container bar">
                     <div class="percentage-bar bar" style="width:{{ choice.percentage }}%">
                     {{ choice.percentage }}%

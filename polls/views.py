@@ -20,7 +20,8 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """
-        Return the last 5 questions (Not include those set that set to published in the future)
+        Return the last 5 questions
+        (Not include those set that set to published in the future)
         Not show the polls that don't have any choices
         """
 
@@ -29,11 +30,17 @@ class IndexView(generic.ListView):
                          if question.have_choice() and question.is_published()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
-                                       pk__in=[question.pk for question in question_list]).order_by("-pub_date")[:5]
+                                       pk__in=[question.pk
+                                       for question in
+                                       question_list]).order_by(
+                                       "-pub_date")[:5]
 
 
 class DetailView(generic.DetailView):
-    """when the user click at polls question user will come to this page to vote"""
+    """
+    when the user click at polls question
+    user will come to this page to vote
+    """
 
     model = Question
     template_name = "polls/detail.html"
@@ -58,7 +65,8 @@ class DetailView(generic.DetailView):
 
     def get_queryset(self):
         """
-        Return the last 5 questions (Not include those set that set to published in the future)
+        Return the last 5 questions
+        (Not include those set that set to published in the future)
         Not show the polls that don't have any choices
         """
 
@@ -67,7 +75,8 @@ class DetailView(generic.DetailView):
                          if question.have_choice() and question.is_published()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
-                                       pk__in=[question.pk for question in question_list])
+                                       pk__in=[question.pk
+                                       for question in question_list])
 
 
 class ResultsView(generic.DetailView):
@@ -77,7 +86,8 @@ class ResultsView(generic.DetailView):
 
     def get_queryset(self):
         """
-        Return the last 5 questions (Not include those set that set to published in the future)
+        Return the last 5 questions
+        (Not include those set that set to published in the future)
         Not show the polls that don't have any choices
         """
 
@@ -86,7 +96,8 @@ class ResultsView(generic.DetailView):
                          if question.have_choice() and question.is_published()]
 
         return Question.objects.filter(pub_date__lte=timezone.now(),
-                                       pk__in=[question.pk for question in question_list])
+                                       pk__in=[question.pk
+                                       for question in question_list])
 
 
 def vote(request, question_id):
@@ -109,4 +120,5 @@ def vote(request, question_id):
 
         # return redirect after finish dealing with POST data
         # (Prevent data from posted twice if user click at back button)
-        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+        return HttpResponseRedirect(reverse("polls:results",
+                                            args=(question.id,)))

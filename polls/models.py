@@ -20,14 +20,10 @@ class Question(models.Model):
         """:return question_text to show it to user"""
         return self.question_text
 
-    def was_published_recently(self):
-        """If the question published recently return True else false"""
-        current_time = timezone.now()
-        return current_time - datetime.timedelta(days=1) <= self.pub_date <= current_time
-
     def is_published(self):
         """
-        :return: True if the current date-time is on or after question’s publication date.
+        :return: True if the current date-time
+        is on or after question’s publication date.
         """
         current_time = timezone.now()
         return self.pub_date <= current_time

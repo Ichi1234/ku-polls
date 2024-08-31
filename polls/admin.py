@@ -18,10 +18,12 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     """
     After admin click to choice name go to this page.
-    This page is for update specific question element (Add new choice, Delete/Change Name Question)
+    This page is for update specific question element
+    (Add new choice, Delete/Change Name Question)
     """
 
-    # make question_text and date in Question page separate (look like add margin to div)
+    # make question_text and date in Question page separate
+    # (look like add margin to div)
     fieldsets = [
         (None, {"fields": ["question_text"]}),
         ("Date Information", {"fields": ["pub_date"]}),
@@ -32,7 +34,8 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
     # make pubdate and publish appear in admin home page
-    list_display = ["question_text", "pub_date", "end_date", "was_published_recently"]
+    list_display = ["question_text", "pub_date",
+                    "end_date", "was_published_recently"]
 
     # add sorting table
     list_filter = ["pub_date"]

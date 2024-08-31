@@ -7,14 +7,48 @@ additional features.
 This app was created as part of the [Individual Software Process](
 https://cpske.github.io/ISP) course at [Kasetsart University](https://www.ku.ac.th).
 
-## Install and Run
+## Requirement:
 
-To be added.
+* Python 3.11 >=
+  
+## Installation Guide:
 
-## Project Documents
+1. Clone this repositorie
+```
+git clone <repository link>
+```
+
+2. Create python environment
+```
+python -m venv .venv
+```
+
+3. Install All packages
+```
+pip install -r requirements.txt
+```
+
+4. Initailize Database
+```
+python ./manage.py migrate
+```
+
+5. Load Polls Data Into Database
+```
+python manage.py loaddata data/<filename>
+```
+
+## Run:
+
+Use this command to run the sever the default server is [localhost:8000](http://localhost:8000)
+```
+python ./manage.py runserver
+```
+## Project Documents:
 
 All project documents are in the [Project Wiki](../../wiki/Home).
 
-- [Vision Statement](../../wiki/Vision%20Statement)
+- [Vision and Scope](../../wiki/Vision%20and%20Scope)
 - [Requirements](../../wiki/Requirements)
 - [Project Plan](../../wiki/Project%20Plan)
+- [Domain Model](../../wiki/Domain%20Model)

@@ -52,3 +52,8 @@ All project documents are in the [Project Wiki](../../wiki/Home).
 - [Requirements](../../wiki/Requirements)
 - [Project Plan](../../wiki/Project%20Plan)
 - [Domain Model](../../wiki/Domain%20Model)
+
+## Test Badge:
+
+![Test Status](https://github.com/Ichi1234/ku-polls/actions/workflows/django.yml/badge.svg)
+

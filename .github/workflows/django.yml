@@ -27,11 +27,11 @@ jobs:
         pip install -r requirements.txt
     - name: Set Environments
       run: |
-        echo SECRET_KEY=${{ SECRETS.SECRET_KEY }} > .env
-        echo DEBUG=${{ SECRETS.DEBUG }} >> .env
-        echo ALLOWED_HOSTS=${{ SECRETS.ALLOWED_HOSTS }} >> .env
-        echo TIME_ZONE=${{ SECRETS.TIME_ZONE }} >> .env
-        echo DATABASE_URL=sqlite:///db.sqlite3 >> .env
+        echo SECRET_KEY=${{ secrets.SECRETS }} > .env
+        echo DEBUG=${{ secrets.SECRETS }} >> .env
+        echo ALLOWED_HOSTS=${{ secrets.SECRETS }} >> .env
+        echo TIME_ZONE=${{ secrets.SECRETS }} >> .env
+        echo DATABASE_URL=${{ secrets.SECRETS }} >> .env
     - name: Run Tests
       run: |
         python manage.py test

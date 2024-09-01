@@ -27,11 +27,11 @@ jobs:
         pip install -r requirements.txt
     - name: Set Environments
       run: |
-        echo SECRET_KEY=${{ secrets.SECRETS }} > .env
-        echo DEBUG=${{ secrets.SECRETS }} >> .env
-        echo ALLOWED_HOSTS=${{ secrets.SECRETS }} >> .env
-        echo TIME_ZONE=${{ secrets.SECRETS }} >> .env
-        echo DATABASE_URL=${{ secrets.SECRETS }} >> .env
+        echo SECRET_KEY=${{ secrets.TEST_SECRET_KEYS }} > .env
+        echo DEBUG=${{ secrets.TEST_SECRET_KEYS }} >> .env
+        echo ALLOWED_HOSTS=${{ secrets.TEST_SECRET_KEYS }} >> .env
+        echo TIME_ZONE=${{ secrets.TEST_SECRET_KEYS }} >> .env
+        echo DATABASE_URL=${{ secrets.TEST_SECRET_KEYS }} >> .env
     - name: Run Tests
       run: |
         python manage.py test

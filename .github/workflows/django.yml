@@ -31,7 +31,7 @@ jobs:
         echo DEBUG=${{ SECRETS.DEBUG }} >> .env
         echo ALLOWED_HOSTS=${{ SECRETS.ALLOWED_HOSTS }} >> .env
         echo TIME_ZONE=${{ SECRETS.TIME_ZONE }} >> .env
-        echo DATABASE_URL=${{ SECRETS.DATABASE_URL }} >> .env
+        echo DATABASE_URL=sqlite:///db.sqlite3 >> .env
     - name: Run Tests
       run: |
         python manage.py test

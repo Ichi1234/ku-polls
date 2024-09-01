@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9, 3.11]
+        python-version: [3.11]
 
     steps:
     - uses: actions/checkout@v4
@@ -27,10 +27,11 @@ jobs:
         pip install -r requirements.txt
     - name: Set Environments
       run: |
-        echo SECRET_KEY=${{ secrets.SECRET_KEY }} > .env
-        echo DEBUG=${{ secrets.DEBUG }} >> .env
-        echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-        echo TIME_ZONE=${{ secrets.TIME_ZONE }} >> .env
+        echo SECRET_KEY=${{ SECRETS.SECRET_KEY }} > .env
+        echo DEBUG=${{ SECRETS.DEBUG }} >> .env
+        echo ALLOWED_HOSTS=${{ SECRETS.ALLOWED_HOSTS }} >> .env
+        echo TIME_ZONE=${{ SECRETS.TIME_ZONE }} >> .env
+        echo DATABASE_URL=${{ SECRETS.DATABASE_URL }} >> .env
     - name: Run Tests
       run: |
         python ./manage.py test

@@ -1,4 +1,5 @@
 """Views class for element that show to the user"""
+from random import choice
 
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseRedirect
@@ -10,7 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 
-from .models import Question, Choice
+from .models import Question, Choice, Vote
 
 
 # Create your views here.
@@ -42,6 +43,7 @@ class DetailView(generic.DetailView):
     """
     when the user click at polls question
     user will come to this page to vote
+    ( Display the choice for a poll )
     """
 
     model = Question
@@ -153,11 +155,25 @@ def vote(request, question_id):
         # Redirect to the index page
         return redirect('polls:detail', question.pk)
 
-    else:
-        select_choice.votes = F("votes") + 1
-        select_choice.save()
+    # Reference to the current user
+    this_user = request.user
 
-        # return redirect after finish dealing with POST data
-        # (Prevent data from posted twice if user click at back button)
-        return HttpResponseRedirect(reverse("polls:results",
-                                            args=(question.id,)))
+    # Get the user's vote
+    try:
+        # vote = this_user.vote_set.get(choice__question=question)
+        vote = Vote.objects.get(user=this_user, choice__question=question)
+        # user has a vote for this question! Update his choice.
+        vote.choice = select_choice
+        vote.save()
+        messages.success(request,f"Your vote was changed to '{select_choice.choice_text}'")
+
+    except Vote.DoesNotExist:
+        # does not have a vote yet
+        vote = Vote.objects.create(user=this_user, choice=select_choice)
+        # automatically saved
+        messages.success(request, f"You voted for '{select_choice.choice_text}'")
+
+    # return redirect after finish dealing with POST data
+    # (Prevent data from posted twice if user click at back button)
+    return HttpResponseRedirect(reverse("polls:results",
+                                        args=(question.id,)))

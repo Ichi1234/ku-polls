@@ -5,6 +5,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -12,6 +13,7 @@ class Question(models.Model):
     """
     This class used for handle database of questions
     """
+
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published", default=timezone.now)
     end_date = models.DateTimeField("date ended", null=True, blank=True)
@@ -25,6 +27,7 @@ class Question(models.Model):
         :return: True if the current date-time
         is on or after question’s publication date.
         """
+
         current_time = timezone.now()
         return self.pub_date <= current_time
 
@@ -32,6 +35,7 @@ class Question(models.Model):
         """
         :return: True if voting is allowed for this question.
         """
+
         current_time = timezone.now()
 
         # if user not set end_date
@@ -60,10 +64,23 @@ class Choice(models.Model):
     """
      This class used for handle database of choices
      """
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+    # votes = models.IntegerField(default=0)
+
+    @property
+    def votes(self):
+        """return the votes for this choice."""
+        return self.vote_set.count()
 
     def __str__(self):
         """:return choice's text to show it to user"""
         return self.choice_text
+
+
+class Vote(models.Model):
+    """A vote by a user for a choice in a poll."""
+
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

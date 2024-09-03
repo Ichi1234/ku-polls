@@ -1,13 +1,13 @@
 """Views class for element that show to the user"""
 from random import choice
 
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponseRedirect
-from django.db.models import F
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 
@@ -145,7 +145,9 @@ class ResultsView(generic.DetailView):
 @login_required
 def vote(request, question_id):
     """Function used to update vote to choice"""
+
     question = get_object_or_404(Question, pk=question_id)
+
     try:
         select_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
@@ -161,15 +163,15 @@ def vote(request, question_id):
     # Get the user's vote
     try:
         # vote = this_user.vote_set.get(choice__question=question)
-        vote = Vote.objects.get(user=this_user, choice__question=question)
+        new_vote = Vote.objects.get(user=this_user, choice__question=question)
         # user has a vote for this question! Update his choice.
-        vote.choice = select_choice
-        vote.save()
+        new_vote.choice = select_choice
+        new_vote.save()
         messages.success(request,f"Your vote was changed to '{select_choice.choice_text}'")
 
     except Vote.DoesNotExist:
         # does not have a vote yet
-        vote = Vote.objects.create(user=this_user, choice=select_choice)
+        Vote.objects.create(user=this_user, choice=select_choice)
         # automatically saved
         messages.success(request, f"You voted for '{select_choice.choice_text}'")
 
@@ -177,3 +179,9 @@ def vote(request, question_id):
     # (Prevent data from posted twice if user click at back button)
     return HttpResponseRedirect(reverse("polls:results",
                                         args=(question.id,)))
+
+@login_required
+def logout_view(request):
+    """Logout function"""
+    logout(request)
+    return redirect('login')

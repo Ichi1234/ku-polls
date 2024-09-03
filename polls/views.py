@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 from .models import Question, Choice
 
@@ -138,7 +140,7 @@ class ResultsView(generic.DetailView):
         # LET'S GO TO RESULT.HTML
         return context
 
-
+@login_required
 def vote(request, question_id):
     """Function used to update vote to choice"""
     question = get_object_or_404(Question, pk=question_id)

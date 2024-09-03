@@ -23,10 +23,11 @@ def create_question(question_text, days, choices: list):
         pub_date=time)
 
     # add choice to question
+
     for all_choice in choices:
         new_question.choice_set.create(
-            choice_text=all_choice["choice_text"],
-            votes=all_choice["votes"])
+            choice_text=all_choice
+        )
     return new_question
 
 
@@ -175,15 +176,7 @@ class QuestionIndexViewTests(TestCase):
         index page.
         """
         question = create_question(question_text="Past question.", days=-30,
-                                   choices=[
-                                       {"choice_text": "Test1",
-                                        "votes": 0
-                                        },
-
-                                       {"choice_text": "Test2",
-                                        "votes": 5
-                                        }
-                                   ])
+                                   choices=["Test1", "Test2"])
 
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(response.context["latest_question_list"],
@@ -195,8 +188,7 @@ class QuestionIndexViewTests(TestCase):
         the index page.
         """
         create_question(question_text="Future question.", days=30,
-                        choices=[{"choice_text": "Test1", "votes": 0},
-                                 {"choice_text": "Test2", "votes": 5}])
+                        choices=["Test1", "Test2"])
 
         response = self.client.get(reverse("polls:index"))
         self.assertContains(response, "No polls are available.")
@@ -208,26 +200,10 @@ class QuestionIndexViewTests(TestCase):
         are displayed.
         """
         question = create_question(question_text="Past question.", days=-30,
-                                   choices=[
-                                       {"choice_text": "Test1",
-                                        "votes": 0
-                                        },
-
-                                       {"choice_text": "Test2",
-                                        "votes": 5
-                                        }
-                                   ])
+                                   choices=["Test1", "Test2"])
 
         create_question(question_text="Future question.", days=30,
-                        choices=[
-                            {"choice_text": "Test1",
-                             "votes": 0
-                             },
-
-                            {"choice_text": "Test2",
-                             "votes": 5
-                             }
-                        ])
+                        choices=["Test1", "Test2"])
 
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(response.context["latest_question_list"],
@@ -238,26 +214,10 @@ class QuestionIndexViewTests(TestCase):
         The questions index page may display multiple questions.
         """
         question1 = create_question(question_text="Past question 1.", days=-30,
-                                    choices=[
-                                        {"choice_text": "Test1",
-                                         "votes": 0
-                                         },
-
-                                        {"choice_text": "Test2",
-                                         "votes": 5
-                                         }
-                                    ])
+                                    choices=["Test1", "Test2"])
 
         question2 = create_question(question_text="Past question 2.", days=-5,
-                                    choices=[
-                                        {"choice_text": "Test1",
-                                         "votes": 0
-                                         },
-
-                                        {"choice_text": "Test2",
-                                         "votes": 5
-                                         }
-                                    ])
+                                    choices=["Test1", "Test2"])
 
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(
@@ -269,29 +229,13 @@ class QuestionIndexViewTests(TestCase):
         and question 2 because question 3 pub_date is in the future.
         """
         question1 = create_question(question_text="Past question 1.", days=-30,
-                                    choices=[
-                                        {"choice_text": "Test1",
-                                         "votes": 0
-                                         },
-
-                                        {"choice_text": "Test2",
-                                         "votes": 5
-                                         }
-                                    ])
+                                    choices=["Test1", "Test2"])
 
         question2 = create_question(question_text="Past question 2.", days=-5,
-                                    choices=[
-                                        {"choice_text": "Test1",
-                                         "votes": 0
-                                         },
-
-                                        {"choice_text": "Test2",
-                                         "votes": 5
-                                         }
-                                    ])
+                                    choices=["Test1", "Test2"])
 
         create_question(question_text="Future question 3.", days=10,
-                        choices=[{"choice_text": "FOUL TARNISED", "votes": 0}])
+                        choices=["FOUL TARNISED"])
 
         response = self.client.get(reverse("polls:index"))
 
@@ -309,15 +253,7 @@ class QuestionDetailViewTests(TestCase):
         """
         future_question = create_question(question_text="Future Question",
                                           days=5,
-                                          choices=[
-                                              {"choice_text": "Test1",
-                                               "votes": 0
-                                               },
-
-                                              {"choice_text": "Test2",
-                                               "votes": 5
-                                               }
-                                          ])
+                                          choices=["Test1", "Test2"])
 
         url = reverse("polls:detail", args=(future_question.id,))
         response = self.client.get(url)
@@ -330,15 +266,7 @@ class QuestionDetailViewTests(TestCase):
         """
         past_question = create_question(question_text="Past Question.",
                                         days=-5,
-                                        choices=[
-                                            {"choice_text": "Test1",
-                                             "votes": 0
-                                             },
-
-                                            {"choice_text": "Test2",
-                                             "votes": 5
-                                             }
-                                        ])
+                                        choices=["Test1", "Test2"])
 
         url = reverse("polls:detail", args=(past_question.id,))
         response = self.client.get(url)
@@ -367,15 +295,7 @@ class QuestionResultViewTests(TestCase):
         """
         future_question = create_question(question_text="Future Question",
                                           days=5,
-                                          choices=[
-                                              {"choice_text": "Test1",
-                                               "votes": 0
-                                               },
-
-                                              {"choice_text": "Test2",
-                                               "votes": 5
-                                               }
-                                          ])
+                                          choices=["Test1", "Test2"])
 
         url = reverse("polls:results", args=(future_question.id,))
         response = self.client.get(url)
@@ -388,15 +308,7 @@ class QuestionResultViewTests(TestCase):
         """
         past_question = create_question(question_text="Past Question.",
                                         days=-5,
-                                        choices=[
-                                            {"choice_text": "Test1",
-                                             "votes": 0
-                                             },
-
-                                            {"choice_text": "Test2",
-                                             "votes": 5
-                                             }
-                                        ])
+                                        choices=["Test1", "Test2"])
 
         url = reverse("polls:results", args=(past_question.id,))
         response = self.client.get(url)

@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Count, Case, When, BooleanField
 
 from .models import Question, Choice, Vote
 
@@ -29,14 +29,20 @@ class IndexView(generic.ListView):
         """
 
         # filter no choices question and not yet published question
-        question_list = [question for question in Question.objects.all()
-                         if question.have_choice() and question.is_published()]
 
-        return Question.objects.filter(pub_date__lte=timezone.now(),
-                                       pk__in=[question.pk
-                                               for question in
-                                               question_list]).order_by(
-            "-pub_date")[:5]
+        # why Django can't use method in objects to filter :(
+        return (
+            Question.objects.annotate( # create calculation field
+                have_choice=Count('choice'), # count how many choices
+                is_published=Case( # case is case (create something like if-else)
+                    When(pub_date__lte=timezone.now(), then=True), # when is condition in if else
+                    default=False,
+                    output_field=BooleanField(), # output bool
+                )
+            )
+            .filter(is_published=True, have_choice__gt=0)
+            .order_by("-pub_date")[:5]
+        )
 
 
 class DetailView(generic.DetailView):
@@ -77,12 +83,19 @@ class DetailView(generic.DetailView):
         """
 
         # filter no choices question and not yet published question
-        question_list = [question for question in Question.objects.all()
-                         if question.have_choice() and question.is_published()]
 
-        return Question.objects.filter(pub_date__lte=timezone.now(),
-                                       pk__in=[question.pk
-                                               for question in question_list])
+        return (
+            Question.objects.annotate(  # create calculation field
+                have_choice=Count('choice'),  # count how many choices
+                is_published=Case(  # case is case (create something like if-else)
+                    When(pub_date__lte=timezone.now(), then=True),  # when is condition in if else
+                    default=False,
+                    output_field=BooleanField(),  # output bool
+                )
+            )
+            .filter(is_published=True, have_choice__gt=0)
+            .order_by("-pub_date")
+        )
 
 
 class ResultsView(generic.DetailView):
@@ -98,12 +111,19 @@ class ResultsView(generic.DetailView):
         """
 
         # filter no choices question and not yet published question
-        question_list = [question for question in Question.objects.all()
-                         if question.have_choice() and question.is_published()]
 
-        return Question.objects.filter(pub_date__lte=timezone.now(),
-                                       pk__in=[question.pk
-                                               for question in question_list])
+        return (
+            Question.objects.annotate(  # create calculation field
+                have_choice=Count('choice'),  # count how many choices
+                is_published=Case(  # case is case (create something like if-else)
+                    When(pub_date__lte=timezone.now(), then=True),  # when is condition in if else
+                    default=False,
+                    output_field=BooleanField(),  # output bool
+                )
+            )
+            .filter(is_published=True, have_choice__gt=0)
+            .order_by("-pub_date")
+        )
 
     def get_context_data(self, **kwargs):
         """

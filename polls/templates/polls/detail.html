@@ -9,6 +9,18 @@
 </head>
 
 <section class="detail-page">
+
+    {% if user.is_authenticated %}
+        Welcome back, {{ user.username }}
+
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+        </form>
+    {% else %}
+        Please <a href="{% url 'login' %}?next={{request.path}}">Login</a>
+    {% endif %}
+
     <form action="{% url 'polls:vote' question.id %}" method="post">
     {% csrf_token %}
         <div class="container">

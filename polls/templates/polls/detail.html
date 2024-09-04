@@ -25,6 +25,8 @@
     {% csrf_token %}
         <div class="container">
             <h1>{{ question.question_text }}</h1>
+
+
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -33,9 +35,14 @@
                 </ul>
                 {% endif %}
 
-            {% for choice in question.choice_set.all %}
+            {% for choice in user_selected_choice %}
                  <div class="radio-container">
-                    <input type="radio"  name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                     {% if choice.selected_choice.id == choice.id %}
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked>
+                     {% else %}
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                     {% endif %}
+
                     <label class="choice" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
                  </div>
 

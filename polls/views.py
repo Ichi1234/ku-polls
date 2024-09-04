@@ -97,6 +97,53 @@ class DetailView(generic.DetailView):
             .order_by("-pub_date")
         )
 
+    def get_context_data(self, **kwargs):
+        """
+        Add custom context to the template.
+        (Use this method to sent the data that I want to results.html)
+        """
+        # Get the existing context from the superclass method
+        context = super().get_context_data(**kwargs)
+
+        question = self.get_object()
+
+        # GIVE ME YOUR IDENTITY USER!!!
+        current_user = self.request.user
+
+        list_of_question = []
+
+        # for set default radio button
+        try:
+            already_select = Vote.objects.get(user=current_user, choice__question=question)
+
+        except (TypeError, Vote.DoesNotExist):
+
+            # user didn't vote for this question
+            already_select = False
+
+        for cur_choice in question.choice_set.all():
+            # Get the user's vote
+
+                # user has a vote for this question!
+                if already_select and already_select.choice.choice_text == cur_choice.choice_text:
+                    list_of_question.append({
+                        "choice_text": cur_choice.choice_text,
+                        "id": cur_choice.id,
+                        "selected_choice": already_select.choice,
+                    })
+
+                else:
+                    list_of_question.append({
+                        "choice_text": cur_choice.choice_text,
+                        "id": cur_choice.id,
+                        "selected_choice": already_select
+                    })
+
+        # Add custom data to the context
+        context['user_selected_choice'] = list_of_question
+
+        return context
+
 
 class ResultsView(generic.DetailView):
     """After vote this page will appear"""
@@ -182,7 +229,6 @@ def vote(request, question_id):
 
     # Get the user's vote
     try:
-        # vote = this_user.vote_set.get(choice__question=question)
         new_vote = Vote.objects.get(user=this_user, choice__question=question)
         # user has a vote for this question! Update his choice.
         new_vote.choice = select_choice

@@ -102,6 +102,10 @@ li a:hover {
     background-color: rgb(146, 0, 0);
 }
 
+.messages li.success {
+    background-color: rgb(36, 146, 0);
+}
+
 /* Container */
 
 .container {

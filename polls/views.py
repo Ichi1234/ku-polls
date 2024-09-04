@@ -203,5 +203,6 @@ def vote(request, question_id):
 @login_required
 def logout_view(request):
     """Logout function"""
+    # Django documentation has this. Why I didn't look at it before fighting with this.
     logout(request)
     return redirect('login')

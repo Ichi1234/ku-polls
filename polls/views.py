@@ -5,10 +5,15 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.dispatch import receiver
+
+
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.signals import user_logged_in, user_login_failed
+
 from django.db.models import Count, Case, When, BooleanField
 
 from .models import Question, Choice, Vote
@@ -237,7 +242,7 @@ def vote(request, question_id):
         new_vote.choice = select_choice
         new_vote.save()
         messages.success(request,f"Your vote was changed to '{select_choice.choice_text}'")
-        logger.info("User changed the vote")
+        logger.info(f"User: {this_user} changed the vote")
 
 
     except Vote.DoesNotExist:
@@ -245,7 +250,7 @@ def vote(request, question_id):
         Vote.objects.create(user=this_user, choice=select_choice)
         # automatically saved
         messages.success(request, f"You voted for '{select_choice.choice_text}'")
-        logger.info("User submits a vote")
+        logger.info(f"User: {this_user} submits a vote")
 
     # return redirect after finish dealing with POST data
     # (Prevent data from posted twice if user click at back button)
@@ -255,9 +260,41 @@ def vote(request, question_id):
 @login_required
 def logout_view(request):
     """Logout function"""
-    logger.info("Successfully logged out.")
+
+    logger.info(f"User: {request.user.username} Successfully logged out.")
     logout(request)
     return redirect('login')
+
+def get_client_ip(request):
+    """Get the visitor’s IP address using request headers."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+@receiver(user_logged_in)
+def user_logged_in_callback(sender, request, user, **kwargs):
+    """Catch if user login successfully"""
+    # Steal code from:
+    # (https://stackoverflow.com/questions/37618473/how-can-i-log
+    # -both-successful-and-failed-login-and-logout-attempts-in-django)
+
+    ip = get_client_ip(request)
+
+    logger.info('login user: {user} via ip: {ip}'.format(
+        user=user,
+        ip=ip
+    ))
+
+@receiver(user_login_failed)
+def user_login_failed_callback(sender, credentials, **kwargs):
+    """Catch if user login unsuccessfully"""
+
+    logger.warning('login failed for: {credentials}'.format(
+        credentials=credentials,
+    ))
 
 def signup(request):
     """Register a new user."""
@@ -272,6 +309,8 @@ def signup(request):
             raw_passwd = form.cleaned_data.get('password1')
             user = authenticate(username=username,password=raw_passwd)
             login(request, user)
+
+            logger.info(f"Create new user: {username}")
 
             return redirect('polls:index')
         # what if form is not valid?

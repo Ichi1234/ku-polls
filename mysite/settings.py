@@ -81,6 +81,41 @@ TEMPLATES = [
     },
 ]
 
+LOGGING = {
+
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    "level": "DEBUG",
+
+    "loggers": {
+        "polls": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+
+    "formatters": {
+            "verbose": {
+                "format": "{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}",
+                "style": "{",
+            },
+            "simple": {
+                "format": "{levelname} {message}",
+                "style": "{",
+            },
+        },
+
+    "handlers": {
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "general.log",
+            "level": "DEBUG",
+            "formatter": "verbose",
+        },
+      },
+}
+
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database

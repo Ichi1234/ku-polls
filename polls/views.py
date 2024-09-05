@@ -1,5 +1,4 @@
 """Views class for element that show to the user"""
-from random import choice
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponseRedirect
@@ -13,6 +12,9 @@ from django.db.models import Count, Case, When, BooleanField
 
 from .models import Question, Choice, Vote
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 class IndexView(generic.ListView):
@@ -234,12 +236,15 @@ def vote(request, question_id):
         new_vote.choice = select_choice
         new_vote.save()
         messages.success(request,f"Your vote was changed to '{select_choice.choice_text}'")
+        logger.info("User changed the vote")
+
 
     except Vote.DoesNotExist:
         # does not have a vote yet
         Vote.objects.create(user=this_user, choice=select_choice)
         # automatically saved
         messages.success(request, f"You voted for '{select_choice.choice_text}'")
+        logger.info("User submits a vote")
 
     # return redirect after finish dealing with POST data
     # (Prevent data from posted twice if user click at back button)

@@ -6,8 +6,9 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, Case, When, BooleanField
 
 from .models import Question, Choice, Vote
@@ -254,6 +255,29 @@ def vote(request, question_id):
 @login_required
 def logout_view(request):
     """Logout function"""
-    # Django documentation has this. Why I didn't look at it before fighting with this.
+    logger.info("Successfully logged out.")
     logout(request)
     return redirect('login')
+
+def signup(request):
+    """Register a new user."""
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+
+            form.save()
+            # get named fields from the form data
+            username = form.cleaned_data.get('username')
+            # password input field is named 'password1'
+            raw_passwd = form.cleaned_data.get('password1')
+            user = authenticate(username=username,password=raw_passwd)
+            login(request, user)
+
+            return redirect('polls:index')
+        # what if form is not valid?
+        # we should display a message in signup.html
+    else:
+        # create a user form and display it the signup page
+        form = UserCreationForm()
+
+    return render(request, 'registration/signup.html', {'form': form})

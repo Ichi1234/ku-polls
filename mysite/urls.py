@@ -18,12 +18,13 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-from polls.views import logout_view
+from polls.views import logout_view, signup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/logout/", logout_view, name="logout"),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('signup/', signup, name='signup'),
 
     path("", RedirectView.as_view(url="/polls/")),
     path('polls/', include('polls.urls')),

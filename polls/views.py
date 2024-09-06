@@ -225,8 +225,10 @@ def vote(request, question_id):
 
     try:
         select_choice = question.choice_set.get(pk=request.POST["choice"])
-    except (KeyError, Choice.DoesNotExist):
-        # display error
+    except (KeyError, Choice.DoesNotExist) as ex:
+
+        logger.error(f"User-didn't select the choice in"
+                     f" QuestionID: {question_id} but try to submit the vote %s", ex)
         messages.error(request, "You didn't select a choice.")
 
         # Redirect to the index page
@@ -242,7 +244,8 @@ def vote(request, question_id):
         new_vote.choice = select_choice
         new_vote.save()
         messages.success(request,f"Your vote was changed to '{select_choice.choice_text}'")
-        logger.info(f"User: {this_user} changed the vote")
+        logger.info(f"User: {this_user} changed the user's"
+                    f" vote in QuestionID: {question_id} to ChoiceID: {select_choice.id}")
 
 
     except Vote.DoesNotExist:
@@ -250,7 +253,8 @@ def vote(request, question_id):
         Vote.objects.create(user=this_user, choice=select_choice)
         # automatically saved
         messages.success(request, f"You voted for '{select_choice.choice_text}'")
-        logger.info(f"User: {this_user} submits a vote")
+        logger.info(f"User: {this_user} choose ChoiceID: {select_choice.id} as the user's"
+                    f" vote in QuestionID: {question_id}  ")
 
     # return redirect after finish dealing with POST data
     # (Prevent data from posted twice if user click at back button)
@@ -260,8 +264,9 @@ def vote(request, question_id):
 @login_required
 def logout_view(request):
     """Logout function"""
+    ip = get_client_ip(request)
 
-    logger.info(f"User: {request.user.username} Successfully logged out.")
+    logger.info(f"User: {request.user.username} via ip: {ip} Successfully logged out.")
     logout(request)
     return redirect('login')
 
@@ -289,12 +294,13 @@ def user_logged_in_callback(sender, request, user, **kwargs):
     ))
 
 @receiver(user_login_failed)
-def user_login_failed_callback(sender, credentials, **kwargs):
+def user_login_failed_callback(sender, credentials, request, **kwargs):
     """Catch if user login unsuccessfully"""
 
-    logger.warning('login failed for: {credentials}'.format(
-        credentials=credentials,
-    ))
+    ip = get_client_ip(request)
+    username = credentials['username']
+
+    logger.warning(f'login failed for User: {username} via ip: {ip}')
 
 def signup(request):
     """Register a new user."""

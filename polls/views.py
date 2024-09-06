@@ -22,6 +22,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 # Create your views here.
 class IndexView(generic.ListView):
     """class for KU-Polls Home Page"""
@@ -40,12 +41,15 @@ class IndexView(generic.ListView):
 
         # why Django can't use method in objects to filter :(
         return (
-            Question.objects.annotate( # create calculation field
-                have_choice=Count('choice'), # count how many choices
-                is_published=Case( # case is case (create something like if-else)
-                    When(pub_date__lte=timezone.now(), then=True), # when is condition in if else
+            Question.objects.annotate(  # create calculation field
+                have_choice=Count('choice'),   # count how many choices
+                # case is case (create something like if-else)
+                is_published=Case(
+                    # when is condition in if else
+                    When(pub_date__lte=timezone.now(), then=True),
                     default=False,
-                    output_field=BooleanField(), # output bool
+                    # output bool
+                    output_field=BooleanField(),
                 )
             )
             .filter(is_published=True, have_choice__gt=0)
@@ -93,12 +97,12 @@ class DetailView(generic.DetailView):
         # filter no choices question and not yet published question
 
         return (
-            Question.objects.annotate(  # create calculation field
-                have_choice=Count('choice'),  # count how many choices
-                is_published=Case(  # case is case (create something like if-else)
-                    When(pub_date__lte=timezone.now(), then=True),  # when is condition in if else
+            Question.objects.annotate(
+                have_choice=Count('choice'),
+                is_published=Case(
+                    When(pub_date__lte=timezone.now(), then=True),
                     default=False,
-                    output_field=BooleanField(),  # output bool
+                    output_field=BooleanField(),
                 )
             )
             .filter(is_published=True, have_choice__gt=0)
@@ -122,30 +126,32 @@ class DetailView(generic.DetailView):
 
         # for set default radio button
         try:
-            already_select = Vote.objects.get(user=current_user, choice__question=question)
+            already_select = Vote.objects.get(user=current_user,
+                                              choice__question=question)
 
         except (TypeError, Vote.DoesNotExist):
 
             # user didn't vote for this question
             already_select = False
 
+        # Get the user's vote
         for cur_choice in question.choice_set.all():
-            # Get the user's vote
 
-                # user has a vote for this question!
-                if already_select and already_select.choice.choice_text == cur_choice.choice_text:
-                    list_of_question.append({
-                        "choice_text": cur_choice.choice_text,
-                        "id": cur_choice.id,
-                        "selected_choice": already_select.choice,
-                    })
+            # user has a vote for this question!
+            if (already_select and already_select.choice.choice_text ==
+                    cur_choice.choice_text):
+                list_of_question.append({
+                    "choice_text": cur_choice.choice_text,
+                    "id": cur_choice.id,
+                    "selected_choice": already_select.choice,
+                })
 
-                else:
-                    list_of_question.append({
-                        "choice_text": cur_choice.choice_text,
-                        "id": cur_choice.id,
-                        "selected_choice": already_select
-                    })
+            else:
+                list_of_question.append({
+                    "choice_text": cur_choice.choice_text,
+                    "id": cur_choice.id,
+                    "selected_choice": already_select
+                })
 
         # Add custom data to the context
         context['user_selected_choice'] = list_of_question
@@ -168,12 +174,12 @@ class ResultsView(generic.DetailView):
         # filter no choices question and not yet published question
 
         return (
-            Question.objects.annotate(  # create calculation field
-                have_choice=Count('choice'),  # count how many choices
-                is_published=Case(  # case is case (create something like if-else)
-                    When(pub_date__lte=timezone.now(), then=True),  # when is condition in if else
+            Question.objects.annotate(
+                have_choice=Count('choice'),
+                is_published=Case(
+                    When(pub_date__lte=timezone.now(), then=True),
                     default=False,
-                    output_field=BooleanField(),  # output bool
+                    output_field=BooleanField(),
                 )
             )
             .filter(is_published=True, have_choice__gt=0)
@@ -217,6 +223,7 @@ class ResultsView(generic.DetailView):
         # LET'S GO TO RESULT.HTML
         return context
 
+
 @login_required
 def vote(request, question_id):
     """Function used to update vote to choice"""
@@ -224,11 +231,13 @@ def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
 
     try:
-        select_choice = question.choice_set.get(pk=request.POST["choice"])
+        select_choice = (question.choice_set.get
+                         (pk=request.POST["choice"]))
     except (KeyError, Choice.DoesNotExist) as ex:
 
         logger.error(f"User-didn't select the choice in"
-                     f" QuestionID: {question_id} but try to submit the vote %s", ex)
+                     f" QuestionID: {question_id} "
+                     f"but try to submit the vote %s", ex)
         messages.error(request, "You didn't select a choice.")
 
         # Redirect to the index page
@@ -243,32 +252,41 @@ def vote(request, question_id):
         # user has a vote for this question! Update his choice.
         new_vote.choice = select_choice
         new_vote.save()
-        messages.success(request,f"Your vote was changed to '{select_choice.choice_text}'")
-        logger.info(f"User: {this_user} changed the user's"
-                    f" vote in QuestionID: {question_id} to ChoiceID: {select_choice.id}")
+        messages.success(request, f"Your vote was changed to '"
+                                  f"{select_choice.choice_text}'")
 
+        logger.info(f"User: {this_user} changed the user's"
+                    f" vote in QuestionID: {question_id} "
+                    f"to ChoiceID: {select_choice.id}")
 
     except Vote.DoesNotExist:
         # does not have a vote yet
         Vote.objects.create(user=this_user, choice=select_choice)
         # automatically saved
-        messages.success(request, f"You voted for '{select_choice.choice_text}'")
-        logger.info(f"User: {this_user} choose ChoiceID: {select_choice.id} as the user's"
-                    f" vote in QuestionID: {question_id}  ")
+        messages.success(request, f"You voted for "
+                                  f"'{select_choice.choice_text}'")
+
+        logger.info(f"User: {this_user} choose ChoiceID: "
+                    f"{select_choice.id} as the user's"
+                    f" vote in QuestionID: {question_id}")
 
     # return redirect after finish dealing with POST data
     # (Prevent data from posted twice if user click at back button)
     return HttpResponseRedirect(reverse("polls:results",
                                         args=(question.id,)))
 
+
 @login_required
 def logout_view(request):
     """Logout function"""
     ip = get_client_ip(request)
 
-    logger.info(f"User: {request.user.username} via ip: {ip} Successfully logged out.")
+    logger.info(f"User: {request.user.username} "
+                f"via ip: {ip} Successfully logged out.")
+
     logout(request)
     return redirect('login')
+
 
 def get_client_ip(request):
     """Get the visitor’s IP address using request headers."""
@@ -278,6 +296,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
 
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
@@ -293,6 +312,7 @@ def user_logged_in_callback(sender, request, user, **kwargs):
         ip=ip
     ))
 
+
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, credentials, request, **kwargs):
     """Catch if user login unsuccessfully"""
@@ -301,6 +321,7 @@ def user_login_failed_callback(sender, credentials, request, **kwargs):
     username = credentials['username']
 
     logger.warning(f'login failed for User: {username} via ip: {ip}')
+
 
 def signup(request):
     """Register a new user."""
@@ -313,7 +334,7 @@ def signup(request):
             username = form.cleaned_data.get('username')
             # password input field is named 'password1'
             raw_passwd = form.cleaned_data.get('password1')
-            user = authenticate(username=username,password=raw_passwd)
+            user = authenticate(username=username, password=raw_passwd)
             login(request, user)
 
             logger.info(f"Create new user: {username}")
@@ -325,4 +346,5 @@ def signup(request):
         # create a user form and display it the signup page
         form = UserCreationForm()
 
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'registration/signup.html',
+                  {'form': form})

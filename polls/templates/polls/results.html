@@ -12,7 +12,7 @@
 
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <button type="submit">Log Out</button>
+            <button type="submit" id="logout-button">Log Out</button>
         </form>
     {% else %}
          <p> Please <a href="{% url 'login' %}?next={{request.path}}">Login</a> </p>
@@ -38,7 +38,9 @@
             <div>
 
                 <div class="percentage-container bar">
-                    <div class="percentage-bar bar" style="width:{{ choice.percentage }}%">
+                    <div class="percentage-bar bar"
+                         style="width:{{ choice.percentage }}%; animation: percent_bar_animate 1s ease-out forwards;
+                         --end-width: {{ choice.percentage }}%;">
                     {{ choice.percentage }}%
                     </div>
                 </div>

@@ -79,6 +79,12 @@ li a:hover {
     cursor: not-allowed;
 }
 
+#logout-button {
+    background-color: #6B6B6B;
+    color: white;
+    border-color: #6B6B6B;
+}
+
 /* Adds a shrink scale effect when clicking  It's cool isn't it? */
 .disable:active {
     transform: none;
@@ -186,10 +192,20 @@ li a:hover {
 }
 
 .percentage-bar {
-    background-color: #DAA520;
+    background-color: #AE841A;
     border-radius: 16px;
 
     text-align: center;
+
+}
+
+@keyframes percent_bar_animate {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--end-width);;
+  }
 }
 
 .percentage-container {
@@ -200,6 +216,7 @@ li a:hover {
 .bar {
     margin-top: 20px;
     margin-bottom: 20px;
+
 }
 
 /* Login page */

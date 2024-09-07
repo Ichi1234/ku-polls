@@ -16,6 +16,7 @@ body {
     }
 }
 
+/* index page */
 .home h1 {
     text-align: center;
     font-size: 2.5rem;
@@ -23,7 +24,24 @@ body {
     color: white;
 }
 
-ul > li {
+.question-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+
+    padding: 16px;
+
+    margin-bottom: 8px;
+}
+
+.online {
+    color: #8CFF66;
+}
+
+.offline {
+    color: #FF6666;
+}
+
+ul > div > li {
       list-style:none;
       color:#ffdc73;
 }

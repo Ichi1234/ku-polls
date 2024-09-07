@@ -31,12 +31,17 @@
     {% if latest_question_list %}
         <ul class="home">
         {% for question in latest_question_list %}
-            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            <div class="question-container">
+                <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
 
-            <div>
+                <p > Status:
+                    <span {% if question.can_vote %} class="online" {% else %} class="offline" {% endif %}>
+                        {% if question.can_vote %}  Open {% else %}  Closed {% endif %} </span></p>
                 <a href="{% url 'polls:detail' question.id %}" class = "button">View</a>
                 <a href="{% url 'polls:results' question.id %}" class="button">Results</a>
+
             </div>
+
         {% endfor %}
         </ul>
     {% else %}

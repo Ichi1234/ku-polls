@@ -1,15 +1,26 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <title>KU-Polls</title>
+    <link rel="icon" href="{% static 'polls/images/icon.png' %}">
+</head>
+
 <html>
 <body>
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <p>
-  <button type="submit">Login</button>
-  </p>
-  <input type="hidden" name="next" value="{{next}}"/>
- </form>
- {# If you have a sign-up page, then add a link here #}
-    <a href="{% url 'signup' %}">Signup</a>
+<section class="login-page">
+    <div class="container">
+    <h2>Login</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <p>
+          <button type="submit" class="button">Login</button>
+          <a href="{% url 'signup' %}" class="button">Signup</a>
+          </p>
+          <input type="hidden" name="next" value="{{next}}"/>
+         </form>
+    </div>
+</section>
 </body>
 </html>

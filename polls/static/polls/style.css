@@ -118,10 +118,6 @@ li a:hover {
     margin: 50px;
     padding: 30px;
 
-
-    grid-column: 1/-1;
-    grid-row: 1/-1;
-
     background-color: rgba(0, 0, 0, 0.6);
 }
 
@@ -204,3 +200,46 @@ li a:hover {
     margin-bottom: 20px;
 }
 
+/* Login page */
+
+.login-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 0.1fr 0.1fr, 0.1fr;
+
+    grid-template-rows: auto; /* Let rows size based on content */
+
+}
+
+.login-page > .container {
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 8px;
+
+    margin: 50px;
+    padding: 30px;
+    box-sizing: border-box;
+
+    grid-column: 2;
+    grid-row: 2;
+
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* signup page */
+
+.signup-page {
+    padding: 5rem;
+    background-color: rgba(0, 0, 0, 0.6);
+
+}
+.signup-page  * {
+    list-style-type: circle;
+
+}
+
+.signup-page .button {
+    width: 100%;
+    display: block;
+}

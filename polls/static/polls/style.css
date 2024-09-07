@@ -46,6 +46,11 @@ ul > div > li {
       color:#ffdc73;
 }
 
+ul > li {
+      list-style:none;
+      color:#ffdc73;
+}
+
 li a {
     text-decoration: none;
     font-size: 1.5rem;
@@ -310,4 +315,8 @@ li a:hover {
     display: block;
 
     margin-bottom: 12px;
+}
+
+#login-butt {
+    color:blue;
 }

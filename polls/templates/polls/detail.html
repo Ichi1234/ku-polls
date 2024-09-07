@@ -42,7 +42,8 @@
                      <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"
                             {% if choice.selected_choice.id == choice.id %} checked {% endif %}>
 
-                    <label class="choice" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                    <label class="choice" for="choice{{ forloop.counter }}">{{ choice.choice_text }}
+                        {% if choice.selected_choice.id == choice.id %} <span>Previous Choice</span> {% endif %}</label><br>
                  </div>
 
             {% endfor %}

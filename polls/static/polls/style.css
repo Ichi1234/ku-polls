@@ -155,6 +155,18 @@ li a:hover {
     color: white;
 }
 
+.choice > span {
+    font-size: 0.9rem;
+    color: #2cad02;
+
+    border: solid 2px;
+    border-color: rgb(36, 146, 0);
+    border-radius: 16px;
+
+    padding: 6px;
+    margin-left: 15px;
+}
+
 .choice:hover {
    color: #dbdbdb;
 }

@@ -14,12 +14,13 @@
         <form method="post">
           {% csrf_token %}
           {{ form.as_p }}
-          <p>
+          <p class="button-container">
           <button type="submit" class="button">Login</button>
           <a href="{% url 'signup' %}" class="button">Signup</a>
           </p>
           <input type="hidden" name="next" value="{{next}}"/>
          </form>
+         <a href="{% url 'polls:index' %}" id="home-butt" class="button">Home</a>
     </div>
 </section>
 </body>

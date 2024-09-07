@@ -258,6 +258,23 @@ li a:hover {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
+.login-page li {
+    margin: 0px;
+}
+.login-page  .button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.login-page  .button-container > .button {
+    margin-top: 20px;
+    width: 50%;
+}
+
+#home-butt {
+    margin-top: 0px;
+}
+
 /* signup page */
 
 .signup-page {
@@ -273,4 +290,6 @@ li a:hover {
 .signup-page .button {
     width: 100%;
     display: block;
+
+    margin-bottom: 12px;
 }

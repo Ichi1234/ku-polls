@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from polls.models import Question
 
+
 def create_question(question_text, days, choices: list):
     """
     Create a question with the given `question_text` and published the

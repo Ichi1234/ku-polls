@@ -1,4 +1,5 @@
 ## KU Polls: Online Survey Questions 
+![Test Status](https://github.com/Ichi1234/ku-polls/actions/workflows/django.yml/badge.svg)
 
 An application to conduct online polls and surveys based
 on the [Django Tutorial project](https://docs.djangoproject.com/en/5.0/intro/tutorial01/), with
@@ -53,7 +54,6 @@ All project documents are in the [Project Wiki](../../wiki/Home).
 - [Project Plan](../../wiki/Project%20Plan)
 - [Domain Model](../../wiki/Domain%20Model)
 
-## Test Badge:
 
-![Test Status](https://github.com/Ichi1234/ku-polls/actions/workflows/django.yml/badge.svg)
+
 

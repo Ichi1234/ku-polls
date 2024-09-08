@@ -8,6 +8,18 @@
 </head>
 <section class="home">
     <h1 class="home">Welcome to KU-Polls!</h1>
+
+    {% if user.is_authenticated %}
+        Welcome back, {{ user.username }}
+
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="logout-button">Log Out</button>
+        </form>
+    {% else %}
+        <p> Please <a href="{% url 'login' %}?next={{request.path}}" id="login-butt">Login</a> </p>
+    {% endif %}
+
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -19,12 +31,17 @@
     {% if latest_question_list %}
         <ul class="home">
         {% for question in latest_question_list %}
-            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            <div class="question-container">
+                <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
 
-            <div>
-                <a href="{% url 'polls:detail' question.id %}" class = "button">Votes</a>
+                <p > Status:
+                    <span {% if question.can_vote %} class="online" {% else %} class="offline" {% endif %}>
+                        {% if question.can_vote %}  Open {% else %}  Closed {% endif %} </span></p>
+                <a href="{% url 'polls:detail' question.id %}" class = "button">View</a>
                 <a href="{% url 'polls:results' question.id %}" class="button">Results</a>
+
             </div>
+
         {% endfor %}
         </ul>
     {% else %}

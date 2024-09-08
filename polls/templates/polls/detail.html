@@ -9,10 +9,25 @@
 </head>
 
 <section class="detail-page">
+
+    <div class="login-section">
+        {% if user.is_authenticated %}
+            Welcome back, {{ user.username }}
+
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" id="logout-button">Log Out</button>
+            </form>
+        {% else %}
+            <p> Please <a href="{% url 'login' %}?next={{request.path}}" id="login-butt">Login</a> </p>
+        {% endif %}
+    </div>
+
     <form action="{% url 'polls:vote' question.id %}" method="post">
     {% csrf_token %}
         <div class="container">
             <h1>{{ question.question_text }}</h1>
+
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -21,19 +36,20 @@
                 </ul>
                 {% endif %}
 
-            {% for choice in question.choice_set.all %}
+            {% for choice in user_selected_choice %}
                  <div class="radio-container">
-                    <input type="radio"  name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-                    <label class="choice" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+
+                     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"
+                            {% if choice.selected_choice.id == choice.id %} checked {% endif %}>
+
+                    <label class="choice" for="choice{{ forloop.counter }}">{{ choice.choice_text }}
+                        {% if choice.selected_choice.id == choice.id %} <span>Previous Choice</span> {% endif %}</label><br>
                  </div>
 
             {% endfor %}
 
-            {% if question.can_vote %}
-                <input type="submit" value="Submit" class="button">
-            {% else %}
-                <input type="submit" value="Submit" class="button disable" disabled>
-            {% endif %}
+            <input type="submit" value="Submit" {% if question.can_vote %} class="button"
+                   {% else %} class="button disable" disabled {% endif %}>
 
             <a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>
             <a href="{% url 'polls:results' question.id %}" class="button">Results</a>

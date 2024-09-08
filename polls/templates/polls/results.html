@@ -7,6 +7,25 @@
     <link rel="icon" href="{% static 'polls/images/icon.png' %}">
 </head>
 
+{% if user.is_authenticated %}
+        Welcome back, {{ user.username }}
+
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="logout-button">Log Out</button>
+        </form>
+    {% else %}
+         <p> Please <a href="{% url 'login' %}?next={{request.path}}" id="login-butt">Login</a> </p>
+{% endif %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 <section class="result-page">
     <div class="container">
         <h1>{{ question.question_text }} </h1>
@@ -19,7 +38,9 @@
             <div>
 
                 <div class="percentage-container bar">
-                    <div class="percentage-bar bar" style="width:{{ choice.percentage }}%">
+                    <div class="percentage-bar bar"
+                         style="width:{{ choice.percentage }}%; animation: percent_bar_animate 1s ease-out forwards;
+                         --end-width: {{ choice.percentage }}%;">
                     {{ choice.percentage }}%
                     </div>
                 </div>

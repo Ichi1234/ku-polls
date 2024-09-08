@@ -16,11 +16,34 @@ body {
     }
 }
 
+/* index page */
 .home h1 {
     text-align: center;
     font-size: 2.5rem;
     padding-top: 40px;
     color: white;
+}
+
+.question-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+
+    padding: 16px;
+
+    margin-bottom: 8px;
+}
+
+.online {
+    color: #8CFF66;
+}
+
+.offline {
+    color: #FF6666;
+}
+
+ul > div > li {
+      list-style:none;
+      color:#ffdc73;
 }
 
 ul > li {
@@ -79,6 +102,12 @@ li a:hover {
     cursor: not-allowed;
 }
 
+#logout-button {
+    background-color: #6B6B6B;
+    color: white;
+    border-color: #6B6B6B;
+}
+
 /* Adds a shrink scale effect when clicking  It's cool isn't it? */
 .disable:active {
     transform: none;
@@ -102,6 +131,10 @@ li a:hover {
     background-color: rgb(146, 0, 0);
 }
 
+.messages li.success {
+    background-color: rgb(36, 146, 0);
+}
+
 /* Container */
 
 .container {
@@ -112,14 +145,12 @@ li a:hover {
     border-radius: 8px;
 
     margin: 50px;
+    margin-top: 36px;
     padding: 30px;
-
-
-    grid-column: 1/-1;
-    grid-row: 1/-1;
 
     background-color: rgba(0, 0, 0, 0.6);
 }
+
 
 .container > h1 {
     font-size: 2.5rem;
@@ -145,6 +176,18 @@ li a:hover {
     text-align: left;
     font-size: 1.5rem;
     color: white;
+}
+
+.choice > span {
+    font-size: 0.9rem;
+    color: #2cad02;
+
+    border: solid 2px;
+    border-color: rgb(36, 146, 0);
+    border-radius: 16px;
+
+    padding: 6px;
+    margin-left: 15px;
 }
 
 .choice:hover {
@@ -184,10 +227,20 @@ li a:hover {
 }
 
 .percentage-bar {
-    background-color: #DAA520;
+    background-color: #AE841A;
     border-radius: 16px;
 
     text-align: center;
+
+}
+
+@keyframes percent_bar_animate {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--end-width);;
+  }
 }
 
 .percentage-container {
@@ -198,5 +251,72 @@ li a:hover {
 .bar {
     margin-top: 20px;
     margin-bottom: 20px;
+
 }
 
+/* Login page */
+
+.login-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 0.1fr 0.1fr, 0.1fr;
+
+    grid-template-rows: auto; /* Let rows size based on content */
+
+}
+
+.login-page > .container {
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 8px;
+
+    margin: 50px;
+    padding: 30px;
+    box-sizing: border-box;
+
+    grid-column: 2;
+    grid-row: 2;
+
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.login-page li {
+    margin: 0px;
+}
+.login-page  .button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.login-page  .button-container > .button {
+    margin-top: 20px;
+    width: 50%;
+}
+
+#home-butt {
+    margin-top: 0px;
+}
+
+/* signup page */
+
+.signup-page {
+    padding: 5rem;
+    background-color: rgba(0, 0, 0, 0.6);
+
+}
+.signup-page  * {
+    list-style-type: circle;
+
+}
+
+.signup-page .button {
+    width: 100%;
+    display: block;
+
+    margin-bottom: 12px;
+}
+
+#login-butt {
+    color:blue;
+}

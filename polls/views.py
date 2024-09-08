@@ -67,13 +67,27 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = "polls/detail.html"
 
+
     def get(self, request, *args, **kwargs):
         """
         GET method for detail.html page
         """
 
-        # give me question
-        question = self.get_object()
+        question = Question.objects.filter(pk=self.kwargs['pk']).first()
+
+        if question is None:
+            # Redirect to index page if the question does not exist
+
+            logger.error(f"User tried to access QuestionID {self.kwargs['pk']} but it does not exist.")
+
+            messages.error(request, "The question you are trying to access does not exist.")
+
+            return redirect('polls:index')
+
+
+        # If a redirect is returned (question does not exist), return that
+        if isinstance(question, HttpResponseRedirect):
+            return question
 
         if not question.can_vote():
             # Set an error message

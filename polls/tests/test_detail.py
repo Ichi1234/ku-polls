@@ -43,7 +43,7 @@ class QuestionDetailViewTests(TestCase):
 
         url = reverse("polls:detail", args=(future_question.id,))
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
     def test_past_question(self):
         """
@@ -65,7 +65,10 @@ class QuestionDetailViewTests(TestCase):
 
         no_choice_question = create_question(question_text="HAHAHA No CHOICE",
                                              days=-2, choices=[])
+
         url = reverse("polls:detail", args=(no_choice_question.id,))
         response = self.client.get(url)
 
+        # Ensure the no_choice_question is not displayed
         self.assertEqual(response.status_code, 404)
+

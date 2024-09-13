@@ -47,23 +47,15 @@ class QuestionModelTests(TestCase):
 
     def test_default_pub_date_equal_to_now(self):
         """
-        This test checks that the default pub_date time is the current time.
+        This test checks that the default pub_date.
 
-        considering only year, month, day, hour, and minute
-        because GitHub test too slow.
+        Time is the current time.
         """
         no_pub_date_question = Question()
         pub_date = no_pub_date_question.pub_date
         now = timezone.now()
 
-        # Check that year, month, day, hour,
-        # and minute are equal
-        # However, milli sec don't need
-        self.assertEqual(pub_date.year, now.year)
-        self.assertEqual(pub_date.month, now.month)
-        self.assertEqual(pub_date.day, now.day)
-        self.assertEqual(pub_date.hour, now.hour)
-        self.assertEqual(pub_date.minute, now.minute)
+        self.assertAlmostEqual(pub_date, now)
 
     def test_default_end_date_is_null(self):
         """This test checks that the default value for end_date is None."""

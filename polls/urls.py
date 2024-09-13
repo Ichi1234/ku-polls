@@ -1,3 +1,5 @@
+"""Urls module for travel to each poll html."""
+
 from django.urls import path
 
 from . import views

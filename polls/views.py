@@ -1,4 +1,4 @@
-"""Views class for element that show to the user"""
+"""Views class for element that show to the user."""
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponseRedirect
@@ -25,18 +25,19 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 class IndexView(generic.ListView):
-    """class for KU-Polls Home Page"""
+    """class for KU-Polls Home Page."""
 
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
         """
-        Return the last 5 questions
-        (Not include those set that set to published in the future)
-        Not show the polls that don't have any choices
-        """
+        Return the last 5 questions.
 
+        (Not include those set that set to published in the future)
+
+        Not show the polls that don't have any choices.
+        """
         # filter no choices question and not yet published question
 
         # why Django can't use method in objects to filter :(
@@ -59,31 +60,30 @@ class IndexView(generic.ListView):
 
 class DetailView(generic.DetailView):
     """
-    when the user click at polls question
+    When the user click at polls question.
+
     user will come to this page to vote
+
     ( Display the choice for a poll )
     """
 
     model = Question
     template_name = "polls/detail.html"
 
-
     def get(self, request, *args, **kwargs):
-        """
-        GET method for detail.html page
-        """
-
+        """GET method for detail.html page."""
         question = Question.objects.filter(pk=self.kwargs['pk']).first()
 
         if question is None:
             # Redirect to index page if the question does not exist
 
-            logger.error(f"User tried to access QuestionID {self.kwargs['pk']} but it does not exist.")
+            logger.error(f"User tried to access QuestionID "
+                         f"{self.kwargs['pk']} but it does not exist.")
 
-            messages.error(request, "The question you are trying to access does not exist.")
+            messages.error(request, "The question you are"
+                                    " trying to access does not exist.")
 
             return redirect('polls:index')
-
 
         # If a redirect is returned (question does not exist), return that
         if isinstance(question, HttpResponseRedirect):
@@ -103,11 +103,12 @@ class DetailView(generic.DetailView):
 
     def get_queryset(self):
         """
-        Return the last 5 questions
+        Return the last 5 questions.
+
         (Not include those set that set to published in the future)
+
         Not show the polls that don't have any choices
         """
-
         # filter no choices question and not yet published question
 
         return (
@@ -126,6 +127,7 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         """
         Add custom context to the template.
+
         (Use this method to sent the data that I want to results.html)
         """
         # Get the existing context from the superclass method
@@ -174,17 +176,19 @@ class DetailView(generic.DetailView):
 
 
 class ResultsView(generic.DetailView):
-    """After vote this page will appear"""
+    """After vote this page will appear."""
+
     model = Question
     template_name = "polls/results.html"
 
     def get_queryset(self):
         """
-        Return the last 5 questions
+        Return the last 5 questions.
+
         (Not include those set that set to published in the future)
+
         Not show the polls that don't have any choices
         """
-
         # filter no choices question and not yet published question
 
         return (
@@ -203,6 +207,7 @@ class ResultsView(generic.DetailView):
     def get_context_data(self, **kwargs):
         """
         Add custom context to the template.
+
         (Use this method to sent the data that I want to results.html)
         """
         # Get the existing context from the superclass method
@@ -240,8 +245,11 @@ class ResultsView(generic.DetailView):
 
 @login_required
 def vote(request, question_id):
-    """Function used to update vote to choice"""
+    """
+    return: HttpResponseRedirect redirect user to Results page.
 
+    Function used to update vote to choice.
+    """
     question = get_object_or_404(Question, pk=question_id)
 
     try:
@@ -292,7 +300,7 @@ def vote(request, question_id):
 
 @login_required
 def logout_view(request):
-    """Logout function"""
+    """Logout function."""
     ip = get_client_ip(request)
 
     logger.info(f"User: {request.user.username} "
@@ -314,7 +322,7 @@ def get_client_ip(request):
 
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
-    """Catch if user login successfully"""
+    """Catch if user login successfully."""
     # Steal code from:
     # (https://stackoverflow.com/questions/37618473/how-can-i-log
     # -both-successful-and-failed-login-and-logout-attempts-in-django)
@@ -329,8 +337,7 @@ def user_logged_in_callback(sender, request, user, **kwargs):
 
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, credentials, request, **kwargs):
-    """Catch if user login unsuccessfully"""
-
+    """Catch if user login unsuccessfully."""
     ip = get_client_ip(request)
     username = credentials['username']
 

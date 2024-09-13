@@ -54,7 +54,7 @@ class IndexView(generic.ListView):
                 )
             )
             .filter(is_published=True, have_choice__gt=0)
-            .order_by("-pub_date")[:5]
+            .order_by("-pub_date")
         )
 
 

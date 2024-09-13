@@ -7,8 +7,10 @@ from mysite import settings
 
 
 class UserAuthTest(django.test.TestCase):
+    """Class to test the Login Logout system for the KU-Polls."""
 
     def setUp(self):
+        """Create Account and Question to set up the test field."""
         # superclass setUp creates a
         # Client object and initializes test database
         super().setUp()
@@ -97,9 +99,7 @@ class UserAuthTest(django.test.TestCase):
         self.assertRedirects(response, login_with_next)
 
     def test_auth_user_can_vote_only_one_vote(self):
-        """
-        Authenticated user can vote only one time
-        """
+        """Authenticated user can vote only one time."""
         login_url = reverse("login")
         self.client.get(login_url)
         form_data = {"username": "testuser",
@@ -138,7 +138,8 @@ class UserAuthTest(django.test.TestCase):
 
     def test_auth_user_choice_changed_if_already_vote(self):
         """
-        Authenticated user can vote only one time
+        Authenticated user can vote only one time.
+
         And if vote again choice should change into the new one
         """
         login_url = reverse("login")

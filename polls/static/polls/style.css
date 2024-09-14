@@ -5,15 +5,9 @@ body {
     background-attachment: fixed;
     color: white;
 
+    background-color: black;
 
-}
 
-/* Adjust background for smaller screens */
-@media (max-width: 768px) {
-    body {
-        background-size: contain;
-        background-attachment: scroll;
-    }
 }
 
 /* index page */

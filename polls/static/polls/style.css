@@ -106,9 +106,27 @@ li a:hover {
 }
 
 #logout-button {
-    background-color: #6B6B6B;
+    background-color: #51575B;
     color: white;
     border-color: #6B6B6B;
+    border-radius: 8px;
+    border-width: 0rem;
+
+    margin-top: 4px;
+    min-width: 4rem;
+    height: 2rem;
+    line-height: 1.5rem;
+
+    cursor: pointer;
+
+}
+
+#logout-button:hover {
+    background-color: #42474a;
+}
+
+#logout:active {
+    transform: scale(0.98);
 }
 
 /* Adds a shrink scale effect when clicking  It's cool isn't it? */

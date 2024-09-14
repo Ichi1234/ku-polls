@@ -25,7 +25,7 @@
 
 
         <div class="container">
-             <form action="{% url 'polls:vote' question.id %}" method="post">
+            <form action="{% url 'polls:vote' question.id %}" method="post" class="detail-form">
             {% csrf_token %}
             <h1>{{ question.question_text }}</h1>
 
@@ -49,11 +49,11 @@
 
             {% endfor %}
 
-            <input type="submit" value="Submit" {% if question.can_vote %} class="button"
+            <input type="submit" value="Submit" id="vote-button" {% if question.can_vote %} class="button"
                    {% else %} class="button disable" disabled {% endif %}>
             </form>
 
-            <form action="{% url 'polls:reset' question.id %}" method="post">
+            <form action="{% url 'polls:reset' question.id %}" method="post" class="detail-form">
             {% csrf_token %}
             <input type="submit" value="Reset the Vote" {% if question.can_vote %} class="button"
                    {% else %} class="button reset-butt disable" disabled {% endif %}>

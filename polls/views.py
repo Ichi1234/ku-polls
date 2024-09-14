@@ -327,7 +327,7 @@ def reset_vote(request, question_id):
                                 f"Therefore, you can't reset vote result.")
 
         logger.info(f"User: {this_user} Try to reset the vote "
-                    f" in QuestionID: {question_id}"
+                    f" in QuestionID: {question_id} "
                     f"However, User: {this_user} never submitted the voted before.")
 
     # return redirect after finish dealing with POST data

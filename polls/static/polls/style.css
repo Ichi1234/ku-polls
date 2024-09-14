@@ -87,6 +87,9 @@ li a:hover {
     cursor: pointer;
 }
 
+#vote-button {
+    margin-top: 16px;
+}
 /* Slightly darker background on hover */
 .button:hover {
     background-color: #42474a;
@@ -151,7 +154,7 @@ li a:hover {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.container form {
+.container .detail-form {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -159,7 +162,7 @@ li a:hover {
     margin: 0px;
 }
 
-.container > h1 {
+.container  h1 {
     font-size: 2.5rem;
     color: gold;
 

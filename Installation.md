@@ -10,12 +10,23 @@ git clone <repository link>
 python -m venv .venv
 ```
 
-3. Install All packages
+3. Activate the virtual environment
+      
+   On Linux or MacOS
+   ```
+   source venv/bin/activate
+   ```
+   On Windows
+   ```
+   venv\Scripts\activate
+   ```
+   
+4. Install All packages
 ```
 pip install -r requirements.txt
 ```
 
-4. Set Values For Externalized Variables
+5. Set Values For Externalized Variables
 
       For macOS/Linux
       ```
@@ -27,7 +38,7 @@ pip install -r requirements.txt
       copy sample.env .env
       ```
 
-5. Initailize Database
+6. Initailize Database
 ```
 python ./manage.py migrate
 ```

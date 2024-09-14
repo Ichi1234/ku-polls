@@ -56,7 +56,7 @@
             <form action="{% url 'polls:reset' question.id %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Reset the Vote" {% if question.can_vote %} class="button"
-                   {% else %} class="button disable" disabled {% endif %}>
+                   {% else %} class="button reset-butt disable" disabled {% endif %}>
             </form>
 
             <a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>

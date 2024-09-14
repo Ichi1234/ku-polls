@@ -85,9 +85,16 @@ class DetailView(generic.DetailView):
 
             return redirect('polls:index')
 
-        # If a redirect is returned (question does not exist), return that
-        if isinstance(question, HttpResponseRedirect):
-            return question
+        elif not question.choice_set.count():
+
+            logger.error(f"User tried to access QuestionID "
+                         f"{self.kwargs['pk']} but it does not has a choices.")
+
+            messages.error(request, "The question you are"
+                                    " trying to access is invalid.")
+
+            return redirect('polls:index')
+
 
         if not question.can_vote():
             # Set an error message
@@ -180,6 +187,35 @@ class ResultsView(generic.DetailView):
 
     model = Question
     template_name = "polls/results.html"
+
+    def get(self, request, *args, **kwargs):
+        """GET method for result.html page."""
+        question = Question.objects.filter(pk=self.kwargs['pk']).first()
+
+        if question is None:
+            # Redirect to index page if the question does not exist
+
+            logger.error(f"User tried to access QuestionID "
+                         f"{self.kwargs['pk']} but it does not exist.")
+
+            messages.error(request, "The question you are"
+                                    " trying to access does not exist.")
+
+            return redirect('polls:index')
+
+        elif not question.choice_set.count():
+
+            logger.error(f"User tried to access QuestionID "
+                         f"{self.kwargs['pk']} but it does not has a choices.")
+
+            messages.error(request, "The question you are"
+                                    " trying to access is invalid.")
+
+            return redirect('polls:index')
+
+
+        # If voting is allowed, proceed with the normal behavior
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         """

@@ -63,7 +63,11 @@ class QuestionDetailViewTests(TestCase):
         self.assertContains(response, past_question.question_text)
 
     def test_no_choice(self):
-        """Question that doesn't have a choice shouldn't appear to user."""
+        """
+        Question that doesn't have a choice shouldn't appear to user.
+
+        And redirect to index.
+        """
         no_choice_question = create_question(question_text="HAHAHA No CHOICE",
                                              days=-2, choices=[])
 
@@ -71,4 +75,4 @@ class QuestionDetailViewTests(TestCase):
         response = self.client.get(url)
 
         # Ensure the no_choice_question is not displayed
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)

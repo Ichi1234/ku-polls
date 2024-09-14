@@ -1,0 +1,98 @@
+[
+{
+  "model": "polls.vote",
+  "pk": 10,
+  "fields": {
+    "choice": 25,
+    "user": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 12,
+  "fields": {
+    "choice": 47,
+    "user": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 13,
+  "fields": {
+    "choice": 58,
+    "user": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 14,
+  "fields": {
+    "choice": 24,
+    "user": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 15,
+  "fields": {
+    "choice": 47,
+    "user": 10
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 16,
+  "fields": {
+    "choice": 70,
+    "user": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 18,
+  "fields": {
+    "choice": 61,
+    "user": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 22,
+  "fields": {
+    "choice": 81,
+    "user": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 24,
+  "fields": {
+    "choice": 82,
+    "user": 1
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 26,
+  "fields": {
+    "choice": 82,
+    "user": 8
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 28,
+  "fields": {
+    "choice": 85,
+    "user": 9
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 29,
+  "fields": {
+    "choice": 24,
+    "user": 1
+  }
+}
+]

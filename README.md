@@ -17,9 +17,24 @@ https://cpske.github.io/ISP) course at [Kasetsart University](https://www.ku.ac.
 
 This is the  [Installation Guide](./Installation.md) for you. Please follow these instructions to make it work.
 
+## Installation Guide
+
+This is the  [Installation Guide](./Installation.md) for you. Please follow these instructions to make it work.
+
 ## Running the Application
 
-Use this command to run the sever the default server is [localhost:8000](http://localhost:8000)
+1. Activate the virtual environment
+      
+   On Linux or MacOS
+   ```
+   source venv/bin/activate
+   ```
+   On Windows
+   ```
+   venv\Scripts\activate
+   ```
+
+2. Use this command to run the sever the default server is [localhost:8000](http://localhost:8000)
 ```
 python ./manage.py runserver
 ```
@@ -42,6 +57,9 @@ All project documents are in the [Project Wiki](../../wiki/Home).
 - [Requirements](../../wiki/Requirements)
 - [Project Plan](../../wiki/Project%20Plan)
 - [Domain Model](../../wiki/Domain%20Model)
+
+## Iteration Plan
+
 - [Iteration 1 Plan](../../wiki/Iteration%201%20Plan)
 - [Iteration 2 Plan](../../wiki/Iteration%202%20Plan)
 - [Iteration 3 Plan](../../wiki/Iteration%203%20Plan)

@@ -95,7 +95,6 @@ class DetailView(generic.DetailView):
 
             return redirect('polls:index')
 
-
         if not question.can_vote():
             # Set an error message
             messages.error(request,
@@ -212,7 +211,6 @@ class ResultsView(generic.DetailView):
                                     " trying to access is invalid.")
 
             return redirect('polls:index')
-
 
         # If voting is allowed, proceed with the normal behavior
         return super().get(request, *args, **kwargs)
@@ -333,6 +331,7 @@ def vote(request, question_id):
     return HttpResponseRedirect(reverse("polls:results",
                                         args=(question.id,)))
 
+
 @login_required
 def reset_vote(request, question_id):
     """
@@ -347,11 +346,12 @@ def reset_vote(request, question_id):
 
     # Get the user's vote
     try:
-        reset_the_vote = Vote.objects.get(user=this_user, choice__question=question)
+        reset_the_vote = Vote.objects.get(user=this_user,
+                                          choice__question=question)
         # user has a vote for this question! Update his choice.
         reset_the_vote.delete()
 
-        messages.success(request, f"Your vote is reset")
+        messages.success(request, "Your vote is reset")
 
         logger.info(f"User: {this_user} reset the user's"
                     f" vote in QuestionID: {question_id} ")
@@ -359,12 +359,13 @@ def reset_vote(request, question_id):
     except Vote.DoesNotExist:
 
         # automatically saved
-        messages.error(request, f"You didn't submit the vote. "
-                                f"Therefore, you can't reset vote result.")
+        messages.error(request, "You didn't submit the vote. "
+                                "Therefore, you can't reset vote result.")
 
         logger.info(f"User: {this_user} Try to reset the vote "
                     f" in QuestionID: {question_id} "
-                    f"However, User: {this_user} never submitted the voted before.")
+                    f"However, User: {this_user} never"
+                    f" submitted the voted before.")
 
     # return redirect after finish dealing with POST data
     # (Prevent data from posted twice if user click at back button)

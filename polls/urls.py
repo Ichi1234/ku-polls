@@ -1,5 +1,4 @@
 """Urls module for travel to each poll html."""
-from django.contrib.admindocs.utils import named_group_matcher
 from django.urls import path
 
 from . import views

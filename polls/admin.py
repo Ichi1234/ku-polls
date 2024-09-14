@@ -1,4 +1,4 @@
-"""This module is for Admin only"""
+"""This module is for Admin only."""
 from django.contrib import admin
 
 from .models import Question, Choice
@@ -8,9 +8,11 @@ from .models import Question, Choice
 
 class ChoiceInline(admin.TabularInline):
     """
-    change choices style to TabularInline and add 3 more blank choice
+    change choices style to TabularInline and add 3 more blank choice.
+
     to make it easier for admin to update the question.
     """
+
     model = Choice
     extra = 3
 
@@ -18,6 +20,7 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     """
     After admin click to choice name go to this page.
+
     This page is for update specific question element
     (Add new choice, Delete/Change Name Question)
     """

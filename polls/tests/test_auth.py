@@ -179,3 +179,41 @@ class UserAuthTest(django.test.TestCase):
         # second time vote (Choice should change)
         self.assertEqual(choice.choice_text,
                          current_choice.choice.choice_text)
+
+    def test_auth_user_can_reset_vote(self):
+        """Authenticated user can reset the vote."""
+        login_url = reverse("login")
+        self.client.get(login_url)
+        form_data = {"username": "testuser",
+                     "password": "FatChance!"}
+        self.client.post(login_url, form_data)
+
+        vote_url = reverse('polls:vote',
+                           args=[self.question.id])
+
+        # what choice to vote for?
+        choice = self.question.choice_set.first()
+        # the polls detail page has a form, each choice is identified by its id
+        form_data = {"choice": f"{choice.id}"}
+        self.client.post(vote_url, form_data)
+
+        total_vote = sum([int(choice.votes)
+                          for choice in self.question.choice_set.all()])
+
+        # first time vote
+        self.assertEqual(1, total_vote)
+
+        vote_url = reverse('polls:reset',
+                           args=[self.question.id])
+
+        # what choice to vote for?
+        choice = self.question.choice_set.last()
+        # the polls detail page has a form, each choice is identified by its id
+        form_data = {"choice": f"{choice.id}"}
+        self.client.post(vote_url, form_data)
+
+        total_vote = sum([int(choice.votes)
+                          for choice in self.question.choice_set.all()])
+
+        # second time vote (Vote should change)
+        self.assertEqual(0, total_vote)

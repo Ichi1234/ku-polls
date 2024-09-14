@@ -297,6 +297,44 @@ def vote(request, question_id):
     return HttpResponseRedirect(reverse("polls:results",
                                         args=(question.id,)))
 
+@login_required
+def reset_vote(request, question_id):
+    """
+    return: HttpResponseRedirect redirect user to Results page.
+
+    Function used to reset vote to choice.
+    """
+    question = get_object_or_404(Question, pk=question_id)
+
+    # Reference to the current user
+    this_user = request.user
+
+    # Get the user's vote
+    try:
+        reset_the_vote = Vote.objects.get(user=this_user, choice__question=question)
+        # user has a vote for this question! Update his choice.
+        reset_the_vote.delete()
+
+        messages.success(request, f"Your vote is reset")
+
+        logger.info(f"User: {this_user} reset the user's"
+                    f" vote in QuestionID: {question_id} ")
+
+    except Vote.DoesNotExist:
+
+        # automatically saved
+        messages.error(request, f"You didn't submit the vote. "
+                                f"Therefore, you can't reset vote result.")
+
+        logger.info(f"User: {this_user} Try to reset the vote "
+                    f" in QuestionID: {question_id}"
+                    f"However, User: {this_user} never submitted the voted before.")
+
+    # return redirect after finish dealing with POST data
+    # (Prevent data from posted twice if user click at back button)
+    return HttpResponseRedirect(reverse("polls:results",
+                                        args=(question.id,)))
+
 
 @login_required
 def logout_view(request):

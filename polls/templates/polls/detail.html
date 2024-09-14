@@ -23,9 +23,10 @@
         {% endif %}
     </div>
 
-    <form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}
+
         <div class="container">
+             <form action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
             <h1>{{ question.question_text }}</h1>
 
             {% if messages %}
@@ -50,12 +51,20 @@
 
             <input type="submit" value="Submit" {% if question.can_vote %} class="button"
                    {% else %} class="button disable" disabled {% endif %}>
+            </form>
+
+            <form action="{% url 'polls:reset' question.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Reset the Vote" {% if question.can_vote %} class="button"
+                   {% else %} class="button disable" disabled {% endif %}>
+            </form>
 
             <a href="{% url 'polls:index' %}" class="button">Back to List of Polls</a>
             <a href="{% url 'polls:results' question.id %}" class="button">Results</a>
 
         </div>
 
-    </form>
+
+
 
 </section>

@@ -55,7 +55,7 @@ class QuestionModelTests(TestCase):
         pub_date = no_pub_date_question.pub_date
         now = timezone.now()
 
-        self.assertAlmostEqual(pub_date, now)
+        self.assertTrue(abs((now - pub_date).total_seconds()) < 1)
 
     def test_default_end_date_is_null(self):
         """This test checks that the default value for end_date is None."""

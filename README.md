@@ -17,9 +17,6 @@ https://cpske.github.io/ISP) course at [Kasetsart University](https://www.ku.ac.
 
 This is the  [Installation Guide](./Installation.md) for you. Please follow these instructions to make it work.
 
-## Installation Guide
-
-This is the  [Installation Guide](./Installation.md) for you. Please follow these instructions to make it work.
 
 ## Running the Application
 
